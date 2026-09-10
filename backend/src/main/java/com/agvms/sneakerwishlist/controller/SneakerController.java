@@ -34,4 +34,11 @@ public class SneakerController {
         String body = sneakerCatalogClient.getById(id);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(body);
     }
+
+    @GetMapping("/brands")
+    public ResponseEntity<String> getBrands(@RequestParam(required = false) Integer page,
+                                             @RequestParam(required = false) Integer limit) {
+        String body = sneakerCatalogClient.getBrands(page, limit);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(body);
+    }
 }

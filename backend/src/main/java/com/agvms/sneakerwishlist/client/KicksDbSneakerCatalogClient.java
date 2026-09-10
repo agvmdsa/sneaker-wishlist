@@ -1,5 +1,6 @@
 package com.agvms.sneakerwishlist.client;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -33,6 +34,7 @@ public class KicksDbSneakerCatalogClient implements SneakerCatalogClient {
     }
 
     @Override
+    @Cacheable("brands")
     public String getBrands(Integer page, Integer limit) {
         String uri = UriComponentsBuilder.fromPath("/v3/utils/brands")
                 .queryParamIfPresent("page", Optional.ofNullable(page))
