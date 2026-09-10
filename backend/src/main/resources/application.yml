@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: sneaker-wishlist-backend
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${POSTGRES_DB:sneaker_wishlist}
+    username: ${POSTGRES_USER:sneaker_wishlist}
+    password: ${POSTGRES_PASSWORD:changeme}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+
+app:
+  price-check:
+    cron: "0 0 3 * * *"
+  rapidapi:
+    key: ${RAPIDAPI_KEY:}
+    host: ${RAPIDAPI_HOST:the-sneaker-database.p.rapidapi.com}
+    base-url: https://api.thesneakerdatabase.com/v2
