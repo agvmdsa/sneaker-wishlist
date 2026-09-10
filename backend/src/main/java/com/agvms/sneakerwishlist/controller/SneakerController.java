@@ -4,6 +4,7 @@ import com.agvms.sneakerwishlist.client.SneakerCatalogClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,12 @@ public class SneakerController {
                                           @RequestParam(required = false) Integer page,
                                           @RequestParam(required = false) Integer limit) {
         String body = sneakerCatalogClient.search(query, filters, sort, page, limit);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(body);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getById(@PathVariable String id) {
+        String body = sneakerCatalogClient.getById(id);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(body);
     }
 }
