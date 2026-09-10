@@ -1,6 +1,7 @@
 package com.agvms.sneakerwishlist.service;
 
 import com.agvms.sneakerwishlist.dto.WishlistItemCreateDto;
+import com.agvms.sneakerwishlist.dto.WishlistItemDto;
 import com.agvms.sneakerwishlist.entity.Brand;
 import com.agvms.sneakerwishlist.entity.WishlistItem;
 import com.agvms.sneakerwishlist.entity.WishlistStatus;
@@ -21,7 +22,7 @@ public class WishlistService {
     }
 
     @Transactional
-    public WishlistItem addItem(WishlistItemCreateDto dto) {
+    public WishlistItemDto addItem(WishlistItemCreateDto dto) {
         Brand brand = brandRepository.findByNameIgnoreCase(dto.brand())
                 .orElseGet(() -> brandRepository.save(new Brand(dto.brand())));
 
@@ -34,6 +35,6 @@ public class WishlistService {
                 dto.size(),
                 WishlistStatus.WANT
         );
-        return wishlistItemRepository.save(item);
+        return WishlistItemDto.from(wishlistItemRepository.save(item));
     }
 }
