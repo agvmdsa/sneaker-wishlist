@@ -14,8 +14,7 @@ spring:
 
 app:
   price-check:
-    cron: "0 0 3 * * *"
-  rapidapi:
-    key: ${RAPIDAPI_KEY:}
-    host: ${RAPIDAPI_HOST:the-sneaker-database.p.rapidapi.com}
-    base-url: https://api.thesneakerdatabase.com/v2
+    cron: "0 0 3 * * MON"
+  kicksdb:
+    api-key: ${KICKSDB_API_KEY:}
+    base-url: ${KICKSDB_BASE_URL:https://api.kicks.dev}
