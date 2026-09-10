@@ -2,13 +2,18 @@ package com.agvms.sneakerwishlist.controller;
 
 import com.agvms.sneakerwishlist.dto.WishlistItemCreateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemDto;
+import com.agvms.sneakerwishlist.entity.WishlistStatus;
 import com.agvms.sneakerwishlist.service.WishlistService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,5 +38,12 @@ public class WishlistController {
     @PostMapping("/check")
     public ResponseEntity<Set<String>> checkAlreadyInCollection(@RequestBody List<String> externalSneakerIds) {
         return ResponseEntity.ok(wishlistService.findAlreadyInCollection(externalSneakerIds));
+    }
+
+    @GetMapping
+    public Page<WishlistItemDto> list(@RequestParam(required = false) WishlistStatus status,
+                                       @RequestParam(required = false) String tag,
+                                       Pageable pageable) {
+        return wishlistService.list(status, tag, pageable);
     }
 }

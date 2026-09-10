@@ -7,6 +7,8 @@ import com.agvms.sneakerwishlist.entity.WishlistItem;
 import com.agvms.sneakerwishlist.entity.WishlistStatus;
 import com.agvms.sneakerwishlist.repository.BrandRepository;
 import com.agvms.sneakerwishlist.repository.WishlistItemRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,5 +50,18 @@ public class WishlistService {
                 .stream()
                 .map(WishlistItem::getExternalSneakerId)
                 .collect(Collectors.toSet());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<WishlistItemDto> list(WishlistStatus status, String tag, Pageable pageable) {
+        List<WishlistStatus> statuses = status != null
+                ? List.of(status)
+                : List.of(WishlistStatus.WANT, WishlistStatus.OWNED);
+
+        Page<WishlistItem> page = (tag != null)
+                ? wishlistItemRepository.findByStatusInAndDeletedAtIsNullAndTagsNameIgnoreCase(statuses, tag, pageable)
+                : wishlistItemRepository.findByStatusInAndDeletedAtIsNull(statuses, pageable);
+
+        return page.map(WishlistItemDto::from);
     }
 }
