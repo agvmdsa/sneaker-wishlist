@@ -10,6 +10,10 @@ import com.agvms.sneakerwishlist.repository.WishlistItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 public class WishlistService {
 
@@ -36,5 +40,13 @@ public class WishlistService {
                 WishlistStatus.WANT
         );
         return WishlistItemDto.from(wishlistItemRepository.save(item));
+    }
+
+    @Transactional(readOnly = true)
+    public Set<String> findAlreadyInCollection(List<String> externalSneakerIds) {
+        return wishlistItemRepository.findByExternalSneakerIdInAndDeletedAtIsNull(externalSneakerIds)
+                .stream()
+                .map(WishlistItem::getExternalSneakerId)
+                .collect(Collectors.toSet());
     }
 }

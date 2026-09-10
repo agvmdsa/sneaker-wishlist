@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/wishlist")
 public class WishlistController {
@@ -25,5 +28,10 @@ public class WishlistController {
     public ResponseEntity<WishlistItemDto> addItem(@Valid @RequestBody WishlistItemCreateDto dto) {
         WishlistItemDto created = wishlistService.addItem(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<Set<String>> checkAlreadyInCollection(@RequestBody List<String> externalSneakerIds) {
+        return ResponseEntity.ok(wishlistService.findAlreadyInCollection(externalSneakerIds));
     }
 }
