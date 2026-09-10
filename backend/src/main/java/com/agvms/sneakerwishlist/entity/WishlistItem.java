@@ -15,17 +15,23 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "wishlist_item")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WishlistItem {
 
     @Id
@@ -48,19 +54,24 @@ public class WishlistItem {
     @Column(name = "retail_price", precision = 10, scale = 2)
     private BigDecimal retailPrice;
 
+    @Setter
     @Column(nullable = false)
     private String size;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private WishlistStatus status;
 
+    @Setter
     @Column(name = "price_paid", precision = 10, scale = 2)
     private BigDecimal pricePaid;
 
+    @Setter
     @Column(columnDefinition = "text")
     private String notes;
 
+    @Setter
     @Column(name = "price_drop_detected", nullable = false)
     private boolean priceDropDetected = false;
 
@@ -68,6 +79,7 @@ public class WishlistItem {
     @Column(name = "added_at", nullable = false, updatable = false)
     private LocalDateTime addedAt;
 
+    @Setter
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
@@ -82,9 +94,6 @@ public class WishlistItem {
     @OneToMany(mappedBy = "wishlistItem", cascade = CascadeType.PERSIST)
     private List<PriceHistory> priceHistory = new ArrayList<>();
 
-    protected WishlistItem() {
-    }
-
     public WishlistItem(String externalSneakerId, String name, Brand brand, String imageUrl,
                          BigDecimal retailPrice, String size, WishlistStatus status) {
         this.externalSneakerId = externalSneakerId;
@@ -94,89 +103,5 @@ public class WishlistItem {
         this.retailPrice = retailPrice;
         this.size = size;
         this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getExternalSneakerId() {
-        return externalSneakerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public BigDecimal getRetailPrice() {
-        return retailPrice;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public WishlistStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(WishlistStatus status) {
-        this.status = status;
-    }
-
-    public BigDecimal getPricePaid() {
-        return pricePaid;
-    }
-
-    public void setPricePaid(BigDecimal pricePaid) {
-        this.pricePaid = pricePaid;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public boolean isPriceDropDetected() {
-        return priceDropDetected;
-    }
-
-    public void setPriceDropDetected(boolean priceDropDetected) {
-        this.priceDropDetected = priceDropDetected;
-    }
-
-    public LocalDateTime getAddedAt() {
-        return addedAt;
-    }
-
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public List<PriceHistory> getPriceHistory() {
-        return priceHistory;
     }
 }

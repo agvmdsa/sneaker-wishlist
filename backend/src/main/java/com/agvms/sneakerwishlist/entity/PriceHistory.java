@@ -9,6 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -16,6 +19,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "price_history")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PriceHistory {
 
     @Id
@@ -33,27 +38,8 @@ public class PriceHistory {
     @Column(name = "checked_at", nullable = false, updatable = false)
     private LocalDateTime checkedAt;
 
-    protected PriceHistory() {
-    }
-
     public PriceHistory(WishlistItem wishlistItem, BigDecimal price) {
         this.wishlistItem = wishlistItem;
         this.price = price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public WishlistItem getWishlistItem() {
-        return wishlistItem;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public LocalDateTime getCheckedAt() {
-        return checkedAt;
     }
 }
