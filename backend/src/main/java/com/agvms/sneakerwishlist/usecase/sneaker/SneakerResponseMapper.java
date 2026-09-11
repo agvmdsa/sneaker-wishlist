@@ -1,43 +1,38 @@
-package com.agvms.sneakerwishlist.service;
+package com.agvms.sneakerwishlist.usecase.sneaker;
 
 import com.agvms.sneakerwishlist.client.KicksDbProduct;
 import com.agvms.sneakerwishlist.client.KicksDbProductResponse;
 import com.agvms.sneakerwishlist.client.KicksDbSearchResponse;
-import com.agvms.sneakerwishlist.client.SneakerCatalogClient;
 import com.agvms.sneakerwishlist.dto.SneakerSummaryDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Service
-public class SneakerService {
+@Component
+public class SneakerResponseMapper {
 
     private static final String SNEAKER_PRODUCT_TYPE = "sneakers";
 
-    private final SneakerCatalogClient sneakerCatalogClient;
     private final ObjectMapper objectMapper;
 
-    public SneakerService(SneakerCatalogClient sneakerCatalogClient, ObjectMapper objectMapper) {
-        this.sneakerCatalogClient = sneakerCatalogClient;
+    public SneakerResponseMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    public List<SneakerSummaryDto> search(String query, String filters, String sort, Integer page, Integer limit) {
-        String rawBody = sneakerCatalogClient.search(query, filters, sort, page, limit);
-        KicksDbSearchResponse response = parse(rawBody, KicksDbSearchResponse.class);
+    public List<SneakerSummaryDto> toSummaryList(String rawSearchResponse) {
+        KicksDbSearchResponse response = parse(rawSearchResponse, KicksDbSearchResponse.class);
         return response.data().stream()
                 .filter(this::isSneaker)
                 .map(this::toSummary)
                 .toList();
     }
 
-    public SneakerSummaryDto getById(String id) {
-        String rawBody = sneakerCatalogClient.getById(id);
-        KicksDbProductResponse response = parse(rawBody, KicksDbProductResponse.class);
+    public SneakerSummaryDto toSummary(String rawProductResponse) {
+        KicksDbProductResponse response = parse(rawProductResponse, KicksDbProductResponse.class);
         return toSummary(response.data());
     }
 

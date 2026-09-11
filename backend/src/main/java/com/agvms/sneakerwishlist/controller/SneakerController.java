@@ -2,7 +2,8 @@ package com.agvms.sneakerwishlist.controller;
 
 import com.agvms.sneakerwishlist.client.SneakerCatalogClient;
 import com.agvms.sneakerwishlist.dto.SneakerSummaryDto;
-import com.agvms.sneakerwishlist.service.SneakerService;
+import com.agvms.sneakerwishlist.usecase.sneaker.GetSneakerByIdUseCase;
+import com.agvms.sneakerwishlist.usecase.sneaker.SearchSneakersUseCase;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,15 @@ import java.util.List;
 public class SneakerController {
 
     private final SneakerCatalogClient sneakerCatalogClient;
-    private final SneakerService sneakerService;
+    private final SearchSneakersUseCase searchSneakersUseCase;
+    private final GetSneakerByIdUseCase getSneakerByIdUseCase;
 
-    public SneakerController(SneakerCatalogClient sneakerCatalogClient, SneakerService sneakerService) {
+    public SneakerController(SneakerCatalogClient sneakerCatalogClient,
+                              SearchSneakersUseCase searchSneakersUseCase,
+                              GetSneakerByIdUseCase getSneakerByIdUseCase) {
         this.sneakerCatalogClient = sneakerCatalogClient;
-        this.sneakerService = sneakerService;
+        this.searchSneakersUseCase = searchSneakersUseCase;
+        this.getSneakerByIdUseCase = getSneakerByIdUseCase;
     }
 
     @GetMapping("/search")
@@ -31,12 +36,12 @@ public class SneakerController {
                                            @RequestParam(required = false) String sort,
                                            @RequestParam(required = false) Integer page,
                                            @RequestParam(required = false) Integer limit) {
-        return sneakerService.search(query, filters, sort, page, limit);
+        return searchSneakersUseCase.execute(query, filters, sort, page, limit);
     }
 
     @GetMapping("/{id}")
     public SneakerSummaryDto getById(@PathVariable String id) {
-        return sneakerService.getById(id);
+        return getSneakerByIdUseCase.execute(id);
     }
 
     @GetMapping("/brands")
