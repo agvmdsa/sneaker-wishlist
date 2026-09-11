@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -80,5 +81,12 @@ public class WishlistService {
             item.setNotes(dto.notes());
         }
         return WishlistItemDto.from(item);
+    }
+
+    @Transactional
+    public void deleteItem(Long id) {
+        WishlistItem item = wishlistItemRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Wishlist item not found: " + id));
+        item.setDeletedAt(LocalDateTime.now());
     }
 }
