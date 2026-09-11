@@ -1,5 +1,6 @@
 package com.agvms.sneakerwishlist.controller;
 
+import com.agvms.sneakerwishlist.dto.StatsDto;
 import com.agvms.sneakerwishlist.dto.StatusUpdateDto;
 import com.agvms.sneakerwishlist.dto.TagDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemCreateDto;
@@ -10,6 +11,7 @@ import com.agvms.sneakerwishlist.usecase.wishlist.AddWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.AssignTagToWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.CheckAlreadyInCollectionUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.DeleteWishlistItemUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.GetWishlistStatsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.ListWishlistItemsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.RemoveTagFromWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.UpdateWishlistItemUseCase;
@@ -44,6 +46,7 @@ public class WishlistController {
     private final UpdateWishlistStatusUseCase updateWishlistStatusUseCase;
     private final AssignTagToWishlistItemUseCase assignTagToWishlistItemUseCase;
     private final RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase;
+    private final GetWishlistStatsUseCase getWishlistStatsUseCase;
 
     public WishlistController(AddWishlistItemUseCase addWishlistItemUseCase,
                                CheckAlreadyInCollectionUseCase checkAlreadyInCollectionUseCase,
@@ -52,7 +55,8 @@ public class WishlistController {
                                DeleteWishlistItemUseCase deleteWishlistItemUseCase,
                                UpdateWishlistStatusUseCase updateWishlistStatusUseCase,
                                AssignTagToWishlistItemUseCase assignTagToWishlistItemUseCase,
-                               RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase) {
+                               RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase,
+                               GetWishlistStatsUseCase getWishlistStatsUseCase) {
         this.addWishlistItemUseCase = addWishlistItemUseCase;
         this.checkAlreadyInCollectionUseCase = checkAlreadyInCollectionUseCase;
         this.listWishlistItemsUseCase = listWishlistItemsUseCase;
@@ -61,6 +65,7 @@ public class WishlistController {
         this.updateWishlistStatusUseCase = updateWishlistStatusUseCase;
         this.assignTagToWishlistItemUseCase = assignTagToWishlistItemUseCase;
         this.removeTagFromWishlistItemUseCase = removeTagFromWishlistItemUseCase;
+        this.getWishlistStatsUseCase = getWishlistStatsUseCase;
     }
 
     @PostMapping
@@ -108,5 +113,10 @@ public class WishlistController {
     public ResponseEntity<Void> removeTag(@PathVariable Long id, @PathVariable Long tagId) {
         removeTagFromWishlistItemUseCase.execute(id, tagId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/stats")
+    public StatsDto stats() {
+        return getWishlistStatsUseCase.execute();
     }
 }
