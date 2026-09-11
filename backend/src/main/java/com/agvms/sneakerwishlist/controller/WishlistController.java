@@ -11,6 +11,7 @@ import com.agvms.sneakerwishlist.usecase.wishlist.AssignTagToWishlistItemUseCase
 import com.agvms.sneakerwishlist.usecase.wishlist.CheckAlreadyInCollectionUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.DeleteWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.ListWishlistItemsUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.RemoveTagFromWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.UpdateWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.UpdateWishlistStatusUseCase;
 import jakarta.validation.Valid;
@@ -42,6 +43,7 @@ public class WishlistController {
     private final DeleteWishlistItemUseCase deleteWishlistItemUseCase;
     private final UpdateWishlistStatusUseCase updateWishlistStatusUseCase;
     private final AssignTagToWishlistItemUseCase assignTagToWishlistItemUseCase;
+    private final RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase;
 
     public WishlistController(AddWishlistItemUseCase addWishlistItemUseCase,
                                CheckAlreadyInCollectionUseCase checkAlreadyInCollectionUseCase,
@@ -49,7 +51,8 @@ public class WishlistController {
                                UpdateWishlistItemUseCase updateWishlistItemUseCase,
                                DeleteWishlistItemUseCase deleteWishlistItemUseCase,
                                UpdateWishlistStatusUseCase updateWishlistStatusUseCase,
-                               AssignTagToWishlistItemUseCase assignTagToWishlistItemUseCase) {
+                               AssignTagToWishlistItemUseCase assignTagToWishlistItemUseCase,
+                               RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase) {
         this.addWishlistItemUseCase = addWishlistItemUseCase;
         this.checkAlreadyInCollectionUseCase = checkAlreadyInCollectionUseCase;
         this.listWishlistItemsUseCase = listWishlistItemsUseCase;
@@ -57,6 +60,7 @@ public class WishlistController {
         this.deleteWishlistItemUseCase = deleteWishlistItemUseCase;
         this.updateWishlistStatusUseCase = updateWishlistStatusUseCase;
         this.assignTagToWishlistItemUseCase = assignTagToWishlistItemUseCase;
+        this.removeTagFromWishlistItemUseCase = removeTagFromWishlistItemUseCase;
     }
 
     @PostMapping
@@ -98,5 +102,11 @@ public class WishlistController {
     @PostMapping("/{id}/tags")
     public ResponseEntity<WishlistItemDto> assignTag(@PathVariable Long id, @RequestBody TagDto dto) {
         return ResponseEntity.ok(assignTagToWishlistItemUseCase.execute(id, dto));
+    }
+
+    @DeleteMapping("/{id}/tags/{tagId}")
+    public ResponseEntity<Void> removeTag(@PathVariable Long id, @PathVariable Long tagId) {
+        removeTagFromWishlistItemUseCase.execute(id, tagId);
+        return ResponseEntity.noContent().build();
     }
 }
