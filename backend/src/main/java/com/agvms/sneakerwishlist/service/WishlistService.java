@@ -33,6 +33,12 @@ public class WishlistService {
 
     @Transactional
     public WishlistItemDto addItem(WishlistItemCreateDto dto) {
+        return wishlistItemRepository.findByExternalSneakerIdAndSizeAndDeletedAtIsNull(dto.externalSneakerId(), dto.size())
+                .map(WishlistItemDto::from)
+                .orElseGet(() -> createItem(dto));
+    }
+
+    private WishlistItemDto createItem(WishlistItemCreateDto dto) {
         Brand brand = brandRepository.findByNameIgnoreCase(dto.brand())
                 .orElseGet(() -> brandRepository.save(new Brand(dto.brand())));
 
