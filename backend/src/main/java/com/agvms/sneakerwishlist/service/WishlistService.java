@@ -1,5 +1,6 @@
 package com.agvms.sneakerwishlist.service;
 
+import com.agvms.sneakerwishlist.dto.StatusUpdateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemCreateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemUpdateDto;
@@ -94,5 +95,33 @@ public class WishlistService {
         WishlistItem item = wishlistItemRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Wishlist item not found: " + id));
         item.setDeletedAt(LocalDateTime.now());
+    }
+
+    @Transactional
+    public WishlistItemDto updateStatus(Long id, StatusUpdateDto dto) {
+        WishlistItem item = wishlistItemRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Wishlist item not found: " + id));
+
+        WishlistStatus current = item.getStatus();
+        WishlistStatus target = dto.status();
+
+        if (current == target) {
+            return WishlistItemDto.from(item);
+        }
+
+        if (!current.canTransitionTo(target)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Cannot transition from " + current + " to " + target);
+        }
+
+        if (target == WishlistStatus.OWNED && dto.pricePaid() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "pricePaid is required when moving to OWNED");
+        }
+
+        item.setStatus(target);
+        if (target == WishlistStatus.OWNED) {
+            item.setPricePaid(dto.pricePaid());
+        }
+        return WishlistItemDto.from(item);
     }
 }

@@ -1,5 +1,6 @@
 package com.agvms.sneakerwishlist.controller;
 
+import com.agvms.sneakerwishlist.dto.StatusUpdateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemCreateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemUpdateDto;
@@ -61,5 +62,11 @@ public class WishlistController {
     public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
         wishlistService.deleteItem(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<WishlistItemDto> updateStatus(@PathVariable Long id,
+                                                         @Valid @RequestBody StatusUpdateDto dto) {
+        return ResponseEntity.ok(wishlistService.updateStatus(id, dto));
     }
 }
