@@ -39,4 +39,15 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(ex.getStatusCode()).body(body);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDto> handleUnexpected(Exception ex) {
+        ErrorResponseDto body = new ErrorResponseDto(
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal server error",
+                null
+        );
+        return ResponseEntity.internalServerError().body(body);
+    }
 }
