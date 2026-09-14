@@ -8,84 +8,84 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 
 ## Backend — Setup & Infra
 
-- [x] **SNKR-2** — initialize monorepo, add root `.gitignore` (`9f98ae8`)
-- [x] **SNKR-3** — generate Spring Boot skeleton: web, jpa, validation, flyway, postgresql, cache, testcontainers (`7770c71`)
-- [x] **SNKR-5** — add `.env.example` for KicksDB/Postgres config (`360e0d8`)
-- [x] **SNKR-81** — add Lombok, use it for entity getters/setters/constructors (`cf63017`)
-- [x] **SNKR-91** — pin backend build to JDK 21 via Maven Toolchains, incl. inside the Docker build stage (`08051a4`, `01cfc69`)
-- [x] **SNKR-77** — add backend Dockerfile (multi-stage Maven build + JRE runtime) (`9d1866b`)
-- [x] **SNKR-79** — add `docker-compose.yml` with db and backend services (`5385805`)
+- [x] **SNKR-2** — initialize monorepo, add root `.gitignore`
+- [x] **SNKR-3** — generate Spring Boot skeleton: web, jpa, validation, flyway, postgresql, cache, testcontainers
+- [x] **SNKR-5** — add `.env.example` for KicksDB/Postgres config
+- [x] **SNKR-81** — add Lombok, use it for entity getters/setters/constructors
+- [x] **SNKR-91** — pin backend build to JDK 21 via Maven Toolchains, incl. inside the Docker build stage
+- [x] **SNKR-77** — add backend Dockerfile (multi-stage Maven build + JRE runtime)
+- [x] **SNKR-79** — add `docker-compose.yml` with db and backend services
 
 ## Backend — Database & Persistence
 
-- [x] **SNKR-7** — wire datasource/flyway config, `wishlist_item` migration (`744878a`)
-- [x] **SNKR-8** — `tag` and `wishlist_item_tag` migration (`417a918`)
-- [x] **SNKR-9** — `brand` migration, `brand_id` column (`3a001ed`)
-- [x] **SNKR-10** — `price_history` migration, `price_drop_detected` column (`dd21341`)
-- [x] **SNKR-11** — `WishlistItem`, `Brand`, `Tag`, `PriceHistory` JPA entities (`eb06f29`)
-- [x] **SNKR-87** — `WishlistItemRepository`, `BrandRepository`, `TagRepository`, `PriceHistoryRepository` (`c6642f4`)
-- [x] **SNKR-92** — unique constraint on active `(external_sneaker_id, size)`, idempotent `addItem` (`f593fb2`)
+- [x] **SNKR-7** — wire datasource/flyway config, `wishlist_item` migration
+- [x] **SNKR-8** — `tag` and `wishlist_item_tag` migration
+- [x] **SNKR-9** — `brand` migration, `brand_id` column
+- [x] **SNKR-10** — `price_history` migration, `price_drop_detected` column
+- [x] **SNKR-11** — `WishlistItem`, `Brand`, `Tag`, `PriceHistory` JPA entities
+- [x] **SNKR-87** — `WishlistItemRepository`, `BrandRepository`, `TagRepository`, `PriceHistoryRepository`
+- [x] **SNKR-92** — unique constraint on active `(external_sneaker_id, size)`, idempotent `addItem`
 
 ## Backend — External Catalog Integration (KicksDB)
 
-- [x] **SNKR-13** — `SneakerCatalogClient` interface (`3909f44`)
-- [x] **SNKR-14** — `KicksDbSneakerCatalogClient` using `RestTemplate`; named endpoint path constants (`a82120c`, `f9963b7`)
-- [x] **SNKR-15** — `RestTemplateConfig`: KicksDB base URL + auth header (`0e10f2d`)
-- [x] **SNKR-94** — `SneakerSummaryDto` (`6535205`)
-- [x] **SNKR-95** — `SneakerService`: deserialize, map to DTO, filter non-sneaker results (`94b635a`)
-- [x] **SNKR-16** — `GET /api/sneakers/search`, routed through `SneakerService` (`416a52c`, `94c184d`)
-- [x] **SNKR-17** — `GET /api/sneakers/{id}` (`daa7c75`)
-- [x] **SNKR-18** — `GET /api/sneakers/brands` with `@Cacheable` (`61e6820`)
+- [x] **SNKR-13** — `SneakerCatalogClient` interface
+- [x] **SNKR-14** — `KicksDbSneakerCatalogClient` using `RestTemplate`; named endpoint path constants
+- [x] **SNKR-15** — `RestTemplateConfig`: KicksDB base URL + auth header
+- [x] **SNKR-94** — `SneakerSummaryDto`
+- [x] **SNKR-95** — `SneakerService`: deserialize, map to DTO, filter non-sneaker results
+- [x] **SNKR-16** — `GET /api/sneakers/search`, routed through `SneakerService`
+- [x] **SNKR-17** — `GET /api/sneakers/{id}`
+- [x] **SNKR-18** — `GET /api/sneakers/brands` with `@Cacheable`
 
 ## Backend — Wishlist CRUD
 
-- [x] **SNKR-20** — `WishlistItemCreateDto` with Bean Validation (`a0f3ab5`)
-- [x] **SNKR-21** — `addItem` use case: snapshot + resolve/create `Brand` on the fly (`f019ff5`)
-- [x] **SNKR-22** — `POST /api/wishlist` + `WishlistItemDto` (`69370a9`)
-- [x] **SNKR-23** — `POST /api/wishlist/check` batch dedup endpoint (`5d33c51`)
-- [x] **SNKR-25** — `GET /api/wishlist` paginated, status/tag filter (`cb5c29c`)
-- [x] **SNKR-26** — `PATCH /api/wishlist/{id}` edit size/notes (`96d21c5`)
-- [x] **SNKR-27** — `DELETE /api/wishlist/{id}` soft delete (`a94c907`)
-- [x] **SNKR-98** — replace `WishlistService`/`SneakerService` with per-operation Use Cases (`9c9dd4e`)
+- [x] **SNKR-20** — `WishlistItemCreateDto` with Bean Validation
+- [x] **SNKR-21** — `addItem` use case: snapshot + resolve/create `Brand` on the fly
+- [x] **SNKR-22** — `POST /api/wishlist` + `WishlistItemDto`
+- [x] **SNKR-23** — `POST /api/wishlist/check` batch dedup endpoint
+- [x] **SNKR-25** — `GET /api/wishlist` paginated, status/tag filter
+- [x] **SNKR-26** — `PATCH /api/wishlist/{id}` edit size/notes
+- [x] **SNKR-27** — `DELETE /api/wishlist/{id}` soft delete
+- [x] **SNKR-98** — replace `WishlistService`/`SneakerService` with per-operation Use Cases
 
 ## Backend — Status & Business Rules
 
-- [x] **SNKR-29** — `WishlistStatus.canTransitionTo` transition rule (`630d79f`)
-- [x] **SNKR-30** — `PATCH /api/wishlist/{id}/status`, idempotent, rejects invalid transitions (`a147204`)
+- [x] **SNKR-29** — `WishlistStatus.canTransitionTo` transition rule
+- [x] **SNKR-30** — `PATCH /api/wishlist/{id}/status`, idempotent, rejects invalid transitions
 
 ## Backend — Tags
 
-- [x] **SNKR-33** — `POST /api/wishlist/{id}/tags` (`6d603d2`)
-- [x] **SNKR-34** — `DELETE /api/wishlist/{id}/tags/{tagId}` (`8702e4f`)
+- [x] **SNKR-33** — `POST /api/wishlist/{id}/tags`
+- [x] **SNKR-34** — `DELETE /api/wishlist/{id}/tags/{tagId}`
 
 ## Backend — Stats
 
-- [x] **SNKR-37** — `GET /api/wishlist/stats` (`249f527`)
+- [x] **SNKR-37** — `GET /api/wishlist/stats`
 
 ## Backend — Error Handling
 
-- [x] **SNKR-45** — `ErrorResponseDto` + `GlobalExceptionHandler` shell (`b473e8b`)
-- [x] **SNKR-46** — `MethodArgumentNotValidException` handler (`f167bb5`)
-- [x] **SNKR-47** — `ResponseStatusException` handler: not-found, invalid transition, missing `price_paid`, external API error (`0ea037d`)
-- [x] **SNKR-49** — catch-all `Exception` handler (500, generic message) (`9900998`)
+- [x] **SNKR-45** — `ErrorResponseDto` + `GlobalExceptionHandler` shell
+- [x] **SNKR-46** — `MethodArgumentNotValidException` handler
+- [x] **SNKR-47** — `ResponseStatusException` handler: not-found, invalid transition, missing `price_paid`, external API error
+- [x] **SNKR-49** — catch-all `Exception` handler (500, generic message)
 
 ## Backend — Price Tracking & Scheduling
 
-- [x] **SNKR-40** — `CheckWantedItemPricesUseCase`: walk WANT items, record price history, flag drops, isolate per-item failures (`791eccb`)
-- [x] **SNKR-39** — `PriceCheckScheduler`, scheduling enabled (`b878cda`)
+- [x] **SNKR-40** — `CheckWantedItemPricesUseCase`: walk WANT items, record price history, flag drops, isolate per-item failures
+- [x] **SNKR-39** — `PriceCheckScheduler`, scheduling enabled
 
 ## Backend — API Documentation
 
-- [x] **SNKR-51** — add springdoc-openapi (`d5a44eb`)
-- [x] **SNKR-52** — Swagger UI metadata: title, description, version (`b04a79b`)
-- [x] **SNKR-99** — `@Tag`/`@Operation` on controllers (`768d106`)
-- [x] **SNKR-100** — `@Schema` examples on request/response DTOs (`4260ed3`)
-- [x] **SNKR-101** — per-endpoint `@ApiResponses` (`78de1e3`)
+- [x] **SNKR-51** — add springdoc-openapi
+- [x] **SNKR-52** — Swagger UI metadata: title, description, version
+- [x] **SNKR-99** — `@Tag`/`@Operation` on controllers
+- [x] **SNKR-100** — `@Schema` examples on request/response DTOs
+- [x] **SNKR-101** — per-endpoint `@ApiResponses`
 
 ## Backend — Hardening
 
-- [x] **SNKR-102** — add CORS configuration allowing the frontend's dev/prod origins (`917f178`)
-- [x] **SNKR-103** — add `GET /api/wishlist/{id}/price-history` endpoint (`PriceHistoryDto`, dedicated Use Case) (`96e11e7`)
+- [x] **SNKR-102** — add CORS configuration allowing the frontend's dev/prod origins
+- [x] **SNKR-103** — add `GET /api/wishlist/{id}/price-history` endpoint (`PriceHistoryDto`, dedicated Use Case)
 - [x] **SNKR-104** — expose a tag id alongside each tag name on `WishlistItemDto`
 - [ ] **SNKR-105** — add automated backend tests: unit tests for Use Cases, Testcontainers-backed integration tests for repositories/controllers
 - [ ] **SNKR-106** — add a `frontend` service to `docker-compose.yml`
