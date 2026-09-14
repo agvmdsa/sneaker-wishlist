@@ -84,8 +84,8 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 
 ## Backend — Hardening
 
-- [ ] **SNKR-102** — add CORS configuration allowing the frontend's dev/prod origins
-- [ ] **SNKR-103** — add `GET /api/wishlist/{id}/price-history` endpoint (`PriceHistoryDto`, dedicated Use Case)
+- [x] **SNKR-102** — add CORS configuration allowing the frontend's dev/prod origins (`bdec035`)
+- [x] **SNKR-103** — add `GET /api/wishlist/{id}/price-history` endpoint (`PriceHistoryDto`, dedicated Use Case)
 - [ ] **SNKR-104** — expose a tag id alongside each tag name on `WishlistItemDto`
 - [ ] **SNKR-105** — add automated backend tests: unit tests for Use Cases, Testcontainers-backed integration tests for repositories/controllers
 - [ ] **SNKR-106** — add a `frontend` service to `docker-compose.yml`

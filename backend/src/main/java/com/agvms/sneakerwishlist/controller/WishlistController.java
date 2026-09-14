@@ -1,6 +1,7 @@
 package com.agvms.sneakerwishlist.controller;
 
 import com.agvms.sneakerwishlist.dto.ErrorResponseDto;
+import com.agvms.sneakerwishlist.dto.PriceHistoryDto;
 import com.agvms.sneakerwishlist.dto.StatsDto;
 import com.agvms.sneakerwishlist.dto.StatusUpdateDto;
 import com.agvms.sneakerwishlist.dto.TagDto;
@@ -12,6 +13,7 @@ import com.agvms.sneakerwishlist.usecase.wishlist.AddWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.AssignTagToWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.CheckAlreadyInCollectionUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.DeleteWishlistItemUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.GetPriceHistoryUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.GetWishlistStatsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.ListWishlistItemsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.RemoveTagFromWishlistItemUseCase;
@@ -55,6 +57,7 @@ public class WishlistController {
     private final AssignTagToWishlistItemUseCase assignTagToWishlistItemUseCase;
     private final RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase;
     private final GetWishlistStatsUseCase getWishlistStatsUseCase;
+    private final GetPriceHistoryUseCase getPriceHistoryUseCase;
 
     public WishlistController(AddWishlistItemUseCase addWishlistItemUseCase,
                                CheckAlreadyInCollectionUseCase checkAlreadyInCollectionUseCase,
@@ -64,7 +67,8 @@ public class WishlistController {
                                UpdateWishlistStatusUseCase updateWishlistStatusUseCase,
                                AssignTagToWishlistItemUseCase assignTagToWishlistItemUseCase,
                                RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase,
-                               GetWishlistStatsUseCase getWishlistStatsUseCase) {
+                               GetWishlistStatsUseCase getWishlistStatsUseCase,
+                               GetPriceHistoryUseCase getPriceHistoryUseCase) {
         this.addWishlistItemUseCase = addWishlistItemUseCase;
         this.checkAlreadyInCollectionUseCase = checkAlreadyInCollectionUseCase;
         this.listWishlistItemsUseCase = listWishlistItemsUseCase;
@@ -74,6 +78,7 @@ public class WishlistController {
         this.assignTagToWishlistItemUseCase = assignTagToWishlistItemUseCase;
         this.removeTagFromWishlistItemUseCase = removeTagFromWishlistItemUseCase;
         this.getWishlistStatsUseCase = getWishlistStatsUseCase;
+        this.getPriceHistoryUseCase = getPriceHistoryUseCase;
     }
 
     @Operation(summary = "Add a sneaker to the collection", description = "Idempotent on (external sneaker id, size) — retrying with the same pair returns the existing item instead of duplicating it.")
@@ -163,6 +168,17 @@ public class WishlistController {
     public ResponseEntity<Void> removeTag(@PathVariable Long id, @PathVariable Long tagId) {
         removeTagFromWishlistItemUseCase.execute(id, tagId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Get an item's price history", description = "Chronological list of recorded price checks for the item.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Price history, oldest first"),
+            @ApiResponse(responseCode = "404", description = "Item not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+    })
+    @GetMapping("/{id}/price-history")
+    public List<PriceHistoryDto> priceHistory(@PathVariable Long id) {
+        return getPriceHistoryUseCase.execute(id);
     }
 
     @Operation(summary = "Get collection statistics", description = "Total active items, total spent, estimated wishlist value, and the most frequent brand.")
