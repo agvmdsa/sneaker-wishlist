@@ -147,7 +147,7 @@ public class WishlistController {
         return ResponseEntity.ok(updateWishlistStatusUseCase.execute(id, dto));
     }
 
-    @Operation(summary = "Assign a tag to an item", description = "Creates the tag on the fly if it doesn't exist yet.")
+    @Operation(summary = "Assign a tag to an item", description = "Creates the tag on the fly if it doesn't exist yet. Only `name` is read from the request body — `id` is response-only and ignored here.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Tag assigned"),
             @ApiResponse(responseCode = "404", description = "Item not found",

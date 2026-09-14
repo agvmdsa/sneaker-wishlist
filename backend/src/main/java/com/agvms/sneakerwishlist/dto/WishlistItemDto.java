@@ -1,6 +1,5 @@
 package com.agvms.sneakerwishlist.dto;
 
-import com.agvms.sneakerwishlist.entity.Tag;
 import com.agvms.sneakerwishlist.entity.WishlistItem;
 import com.agvms.sneakerwishlist.entity.WishlistStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,7 +22,7 @@ public record WishlistItemDto(
         @Schema(example = "Bought as a birthday gift") String notes,
         @Schema(example = "false") boolean priceDropDetected,
         LocalDateTime addedAt,
-        Set<String> tags
+        Set<TagDto> tags
 ) {
 
     public static WishlistItemDto from(WishlistItem item) {
@@ -40,7 +39,7 @@ public record WishlistItemDto(
                 item.getNotes(),
                 item.isPriceDropDetected(),
                 item.getAddedAt(),
-                item.getTags().stream().map(Tag::getName).collect(Collectors.toSet())
+                item.getTags().stream().map(TagDto::from).collect(Collectors.toSet())
         );
     }
 }
