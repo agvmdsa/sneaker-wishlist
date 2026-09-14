@@ -26,5 +26,9 @@ frontend/.vite/
 .springBeans
 .sts4-cache
 
+.specify/
+.claude/
+specs/
+
 # OS
 .DS_Store
