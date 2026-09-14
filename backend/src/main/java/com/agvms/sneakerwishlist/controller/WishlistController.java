@@ -16,6 +16,8 @@ import com.agvms.sneakerwishlist.usecase.wishlist.ListWishlistItemsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.RemoveTagFromWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.UpdateWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.UpdateWishlistStatusUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +38,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/wishlist")
+@Tag(name = "Wishlist", description = "Manage the personal sneaker collection")
 public class WishlistController {
 
     private final AddWishlistItemUseCase addWishlistItemUseCase;
@@ -68,17 +71,20 @@ public class WishlistController {
         this.getWishlistStatsUseCase = getWishlistStatsUseCase;
     }
 
+    @Operation(summary = "Add a sneaker to the collection", description = "Idempotent on (external sneaker id, size) — retrying with the same pair returns the existing item instead of duplicating it.")
     @PostMapping
     public ResponseEntity<WishlistItemDto> addItem(@Valid @RequestBody WishlistItemCreateDto dto) {
         WishlistItemDto created = addWishlistItemUseCase.execute(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+    @Operation(summary = "Check which sneakers are already in the collection", description = "Batch check for a list of external sneaker ids — avoids one call per item on the search results page.")
     @PostMapping("/check")
     public ResponseEntity<Set<String>> checkAlreadyInCollection(@RequestBody List<String> externalSneakerIds) {
         return ResponseEntity.ok(checkAlreadyInCollectionUseCase.execute(externalSneakerIds));
     }
 
+    @Operation(summary = "List the collection", description = "Paginated, filterable by status and tag. Defaults to WANT and OWNED items when no status is given.")
     @GetMapping
     public Page<WishlistItemDto> list(@RequestParam(required = false) WishlistStatus status,
                                        @RequestParam(required = false) String tag,
@@ -86,35 +92,41 @@ public class WishlistController {
         return listWishlistItemsUseCase.execute(status, tag, pageable);
     }
 
+    @Operation(summary = "Edit a collection item's personal data", description = "Only size and notes are editable here.")
     @PatchMapping("/{id}")
     public ResponseEntity<WishlistItemDto> updateItem(@PathVariable Long id,
                                                        @RequestBody WishlistItemUpdateDto dto) {
         return ResponseEntity.ok(updateWishlistItemUseCase.execute(id, dto));
     }
 
+    @Operation(summary = "Remove an item from the collection", description = "Soft delete — the row is kept, marked as deleted.")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
         deleteWishlistItemUseCase.execute(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Change an item's status", description = "Valid transitions: WANT→OWNED, OWNED→SOLD, OWNED→DONATED. Requires price_paid when moving to OWNED. Idempotent no-op if already at the target status.")
     @PatchMapping("/{id}/status")
     public ResponseEntity<WishlistItemDto> updateStatus(@PathVariable Long id,
                                                          @Valid @RequestBody StatusUpdateDto dto) {
         return ResponseEntity.ok(updateWishlistStatusUseCase.execute(id, dto));
     }
 
+    @Operation(summary = "Assign a tag to an item", description = "Creates the tag on the fly if it doesn't exist yet.")
     @PostMapping("/{id}/tags")
     public ResponseEntity<WishlistItemDto> assignTag(@PathVariable Long id, @RequestBody TagDto dto) {
         return ResponseEntity.ok(assignTagToWishlistItemUseCase.execute(id, dto));
     }
 
+    @Operation(summary = "Remove a tag from an item")
     @DeleteMapping("/{id}/tags/{tagId}")
     public ResponseEntity<Void> removeTag(@PathVariable Long id, @PathVariable Long tagId) {
         removeTagFromWishlistItemUseCase.execute(id, tagId);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get collection statistics", description = "Total active items, total spent, estimated wishlist value, and the most frequent brand.")
     @GetMapping("/stats")
     public StatsDto stats() {
         return getWishlistStatsUseCase.execute();

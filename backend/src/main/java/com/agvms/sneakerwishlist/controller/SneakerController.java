@@ -4,6 +4,8 @@ import com.agvms.sneakerwishlist.client.SneakerCatalogClient;
 import com.agvms.sneakerwishlist.dto.SneakerSummaryDto;
 import com.agvms.sneakerwishlist.usecase.sneaker.GetSneakerByIdUseCase;
 import com.agvms.sneakerwishlist.usecase.sneaker.SearchSneakersUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/sneakers")
+@Tag(name = "Sneakers", description = "Thin proxy to the KicksDB external catalog")
 public class SneakerController {
 
     private final SneakerCatalogClient sneakerCatalogClient;
@@ -30,6 +33,7 @@ public class SneakerController {
         this.getSneakerByIdUseCase = getSneakerByIdUseCase;
     }
 
+    @Operation(summary = "Search sneakers", description = "Proxies KicksDB's StockX-backed search, filtering out non-sneaker results (apparel, etc).")
     @GetMapping("/search")
     public List<SneakerSummaryDto> search(@RequestParam(required = false) String query,
                                            @RequestParam(required = false) String filters,
@@ -39,11 +43,13 @@ public class SneakerController {
         return searchSneakersUseCase.execute(query, filters, sort, page, limit);
     }
 
+    @Operation(summary = "Get a sneaker by id")
     @GetMapping("/{id}")
     public SneakerSummaryDto getById(@PathVariable String id) {
         return getSneakerByIdUseCase.execute(id);
     }
 
+    @Operation(summary = "List brands", description = "Raw passthrough to KicksDB, cached — brand data rarely changes.")
     @GetMapping("/brands")
     public ResponseEntity<String> getBrands(@RequestParam(required = false) Integer page,
                                              @RequestParam(required = false) Integer limit) {
