@@ -4,11 +4,18 @@ import { EmptyState } from '@/components/empty-state';
 import { Stack } from '@/components/stack';
 import { Input } from '@/components/input';
 import { useSneakerSearch, MIN_QUERY_LENGTH } from '../hooks/use-sneaker-search';
+import { useAlreadyInCollection } from '../hooks/use-already-in-collection';
 import { SneakerSearchResultCard } from './sneaker-search-result-card';
 
 export function SneakerSearch() {
   const [query, setQuery] = useState('');
   const { results, isLoading, error } = useSneakerSearch(query);
+  const alreadyInCollectionIds = useAlreadyInCollection(results.map((sneaker) => sneaker.id));
+  const [justAddedIds, setJustAddedIds] = useState<Set<string>>(new Set());
+
+  function handleAdded(externalSneakerId: string) {
+    setJustAddedIds((current) => new Set(current).add(externalSneakerId));
+  }
 
   return (
     <Stack gap="md">
@@ -30,7 +37,12 @@ export function SneakerSearch() {
         >
           <Stack gap="sm">
             {results.map((sneaker) => (
-              <SneakerSearchResultCard key={sneaker.id} sneaker={sneaker} />
+              <SneakerSearchResultCard
+                key={sneaker.id}
+                sneaker={sneaker}
+                isInCollection={alreadyInCollectionIds.has(sneaker.id) || justAddedIds.has(sneaker.id)}
+                onAdded={handleAdded}
+              />
             ))}
           </Stack>
         </AsyncState>
