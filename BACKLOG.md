@@ -102,7 +102,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 
 ## Frontend — Wishlist List & Filters
 
-- [ ] **SNKR-114** — `useWishlistItems` hook + paginated wishlist list view
+- [x] **SNKR-114** — `useWishlistItems` hook + paginated wishlist list view
 - [ ] **SNKR-115** — status and tag filters on the wishlist list
 
 ## Frontend — Add to Wishlist
