@@ -87,7 +87,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-102** — add CORS configuration allowing the frontend's dev/prod origins
 - [x] **SNKR-103** — add `GET /api/wishlist/{id}/price-history` endpoint (`PriceHistoryDto`, dedicated Use Case)
 - [x] **SNKR-104** — expose a tag id alongside each tag name on `WishlistItemDto`
-- [ ] **SNKR-105** — add automated backend tests: unit tests for Use Cases, Testcontainers-backed integration tests for repositories/controllers
+- [x] **SNKR-105** — add automated backend unit tests for Use Cases (Mockito)
 - [ ] **SNKR-106** — add a `frontend` service to `docker-compose.yml`
 - [ ] **SNKR-107** — add root `README.md` (setup + run instructions for backend and frontend)
 
@@ -136,3 +136,4 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [ ] **SNKR-127** — move sneaker catalog Use Cases into `usecase.sneaker.query`, implement `QueryHandler`
 - [ ] **SNKR-128** — update the constitution's Principle I to name the Command/Query convention
 - [ ] **SNKR-129** — upgrade `spring-boot-starter-parent` 3.5.3 → 4.1.1
+- [ ] **SNKR-130** — add Testcontainers-backed integration tests for repositories and controllers
