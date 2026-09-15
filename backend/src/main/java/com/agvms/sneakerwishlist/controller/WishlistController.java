@@ -100,7 +100,7 @@ public class WishlistController {
         return ResponseEntity.ok(checkAlreadyInCollectionUseCase.execute(externalSneakerIds));
     }
 
-    @Operation(summary = "List the collection", description = "Paginated, filterable by status and tag. Defaults to WANT and OWNED items when no status is given.")
+    @Operation(summary = "List the collection", description = "Paginated, filterable by status and tag (tag matches by prefix, case-insensitive). Defaults to WANT and OWNED items when no status is given.")
     @ApiResponse(responseCode = "200", description = "Paginated collection")
     @GetMapping
     public Page<WishlistItemDto> list(@RequestParam(required = false) WishlistStatus status,

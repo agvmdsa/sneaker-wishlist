@@ -27,7 +27,7 @@ public class ListWishlistItemsUseCase {
                 : List.of(WishlistStatus.WANT, WishlistStatus.OWNED);
 
         Page<WishlistItem> page = (tag != null)
-                ? wishlistItemRepository.findByStatusInAndDeletedAtIsNullAndTagsNameIgnoreCase(statuses, tag, pageable)
+                ? wishlistItemRepository.findDistinctByStatusInAndDeletedAtIsNullAndTagsNameStartingWithIgnoreCase(statuses, tag, pageable)
                 : wishlistItemRepository.findByStatusInAndDeletedAtIsNull(statuses, pageable);
 
         return page.map(WishlistItemDto::from);

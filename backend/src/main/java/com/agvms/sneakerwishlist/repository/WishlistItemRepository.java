@@ -21,8 +21,8 @@ public interface WishlistItemRepository extends JpaRepository<WishlistItem, Long
 
     Page<WishlistItem> findByStatusInAndDeletedAtIsNull(Collection<WishlistStatus> statuses, Pageable pageable);
 
-    Page<WishlistItem> findByStatusInAndDeletedAtIsNullAndTagsNameIgnoreCase(
-            Collection<WishlistStatus> statuses, String tagName, Pageable pageable);
+    Page<WishlistItem> findDistinctByStatusInAndDeletedAtIsNullAndTagsNameStartingWithIgnoreCase(
+            Collection<WishlistStatus> statuses, String tagPrefix, Pageable pageable);
 
     long countByDeletedAtIsNull();
 

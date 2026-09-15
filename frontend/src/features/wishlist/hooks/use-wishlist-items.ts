@@ -1,7 +1,10 @@
 import { useEffect, useReducer } from 'react';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import type { ApiError } from '@/types/api-error';
 import { getWishlistItems, type GetWishlistItemsParams } from '../api/get-wishlist-items';
 import type { WishlistItemPage } from '../types/wishlist-item.schema';
+
+const debouncedGetWishlistItems = AwesomeDebouncePromise(getWishlistItems, 300);
 
 interface State {
   data: WishlistItemPage | null;
@@ -34,9 +37,9 @@ export function useWishlistItems(params: GetWishlistItemsParams) {
     let isActive = true;
     dispatch({ type: 'fetch-start' });
 
-    getWishlistItems(params)
+    debouncedGetWishlistItems(params)
       .then((page) => {
-        if (isActive) dispatch({ type: 'fetch-success', payload: page });
+        if (isActive && page) dispatch({ type: 'fetch-success', payload: page });
       })
       .catch((error: ApiError) => {
         if (isActive) dispatch({ type: 'fetch-error', payload: error });
