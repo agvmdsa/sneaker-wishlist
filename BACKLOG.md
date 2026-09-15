@@ -138,3 +138,4 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [ ] **SNKR-129** — update the constitution's Principle I to name the Command/Query convention
 - [ ] **SNKR-130** — upgrade `spring-boot-starter-parent` 3.5.3 → 4.1.1
 - [ ] **SNKR-131** — add Testcontainers-backed integration tests for repositories and controllers
+- [ ] **SNKR-132** — stabilize paginated response serialization: enable `@EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)` so `Page<T>` responses (`GET /api/wishlist`) serialize through Spring Data's `PagedModel` instead of raw `PageImpl`, whose JSON shape isn't guaranteed stable across Spring Data versions (see startup warning); update `wishlistItemPageSchema` on the frontend to match the new shape
