@@ -1,7 +1,9 @@
+import { PageContainer } from '@/components/page-container';
+
 export function SearchRoute() {
   return (
-    <main>
+    <PageContainer>
       <h1>Search Sneakers</h1>
-    </main>
+    </PageContainer>
   );
 }

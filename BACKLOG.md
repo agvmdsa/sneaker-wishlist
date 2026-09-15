@@ -98,42 +98,43 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-110** — add Zod schemas + inferred types mirroring backend DTOs
 - [x] **SNKR-111** — add React Router setup: `/`, `/wishlist/:id`, `/search`, `/stats`
 - [x] **SNKR-112** — add shared loading/error/empty state components
+- [x] **SNKR-113** — add design-system foundation: CSS tokens, layout primitives (`PageContainer`, `Stack`), form/UI primitives (`Button`, `Input`, `Select`, `TextArea`, `Badge`), `AsyncState` composition wrapper
 
 ## Frontend — Wishlist List & Filters
 
-- [ ] **SNKR-113** — `useWishlistItems` hook + paginated wishlist list view
-- [ ] **SNKR-114** — status and tag filters on the wishlist list
+- [ ] **SNKR-114** — `useWishlistItems` hook + paginated wishlist list view
+- [ ] **SNKR-115** — status and tag filters on the wishlist list
 
 ## Frontend — Add to Wishlist
 
-- [ ] **SNKR-115** — catalog search view + `useSneakerSearch` hook
-- [ ] **SNKR-116** — add-to-wishlist flow: size selection, dedup check via `/wishlist/check`, submit
+- [ ] **SNKR-116** — catalog search view + `useSneakerSearch` hook
+- [ ] **SNKR-117** — add-to-wishlist flow: size selection, dedup check via `/wishlist/check`, submit
 
 ## Frontend — Item Lifecycle
 
-- [ ] **SNKR-117** — item detail view, edit size/notes
-- [ ] **SNKR-118** — status-change control with transition guard + conditional `pricePaid` field
-- [ ] **SNKR-119** — remove-item action
+- [ ] **SNKR-118** — item detail view, edit size/notes
+- [ ] **SNKR-119** — status-change control with transition guard + conditional `pricePaid` field
+- [ ] **SNKR-120** — remove-item action
 
 ## Frontend — Tags
 
-- [ ] **SNKR-120** — tag management UI (add/remove) on item detail
+- [ ] **SNKR-121** — tag management UI (add/remove) on item detail
 
 ## Frontend — Price History & Stats
 
-- [ ] **SNKR-121** — price history view on item detail
-- [ ] **SNKR-122** — stats view
+- [ ] **SNKR-122** — price history view on item detail
+- [ ] **SNKR-123** — stats view
 
 ## Frontend — Quality
 
-- [ ] **SNKR-123** — automated frontend tests (Vitest + React Testing Library) for hooks and key components
+- [ ] **SNKR-124** — automated frontend tests (Vitest + React Testing Library) for hooks and key components
 
 ## Stretch Goals (end of project, only if time remains)
 
-- [ ] **SNKR-124** — define `Command`/`Query`/`CommandHandler`/`QueryHandler` marker interfaces
-- [ ] **SNKR-125** — move wishlist write Use Cases into `usecase.wishlist.command`, implement `CommandHandler`
-- [ ] **SNKR-126** — move wishlist read Use Cases into `usecase.wishlist.query`, implement `QueryHandler`
-- [ ] **SNKR-127** — move sneaker catalog Use Cases into `usecase.sneaker.query`, implement `QueryHandler`
-- [ ] **SNKR-128** — update the constitution's Principle I to name the Command/Query convention
-- [ ] **SNKR-129** — upgrade `spring-boot-starter-parent` 3.5.3 → 4.1.1
-- [ ] **SNKR-130** — add Testcontainers-backed integration tests for repositories and controllers
+- [ ] **SNKR-125** — define `Command`/`Query`/`CommandHandler`/`QueryHandler` marker interfaces
+- [ ] **SNKR-126** — move wishlist write Use Cases into `usecase.wishlist.command`, implement `CommandHandler`
+- [ ] **SNKR-127** — move wishlist read Use Cases into `usecase.wishlist.query`, implement `QueryHandler`
+- [ ] **SNKR-128** — move sneaker catalog Use Cases into `usecase.sneaker.query`, implement `QueryHandler`
+- [ ] **SNKR-129** — update the constitution's Principle I to name the Command/Query convention
+- [ ] **SNKR-130** — upgrade `spring-boot-starter-parent` 3.5.3 → 4.1.1
+- [ ] **SNKR-131** — add Testcontainers-backed integration tests for repositories and controllers

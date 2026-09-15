@@ -1,7 +1,9 @@
+import { PageContainer } from '@/components/page-container';
+
 export function WishlistListRoute() {
   return (
-    <main>
+    <PageContainer>
       <h1>Sneaker Wishlist</h1>
-    </main>
+    </PageContainer>
   );
 }

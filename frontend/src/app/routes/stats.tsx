@@ -1,7 +1,9 @@
+import { PageContainer } from '@/components/page-container';
+
 export function StatsRoute() {
   return (
-    <main>
+    <PageContainer>
       <h1>Wishlist Stats</h1>
-    </main>
+    </PageContainer>
   );
 }
