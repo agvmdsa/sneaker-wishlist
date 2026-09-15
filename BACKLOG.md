@@ -94,7 +94,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-106** — scaffold Vite + React + TypeScript project (`frontend/`), bulletproof-react feature-based structure
 - [x] **SNKR-107** — add frontend Dockerfile and wire a `frontend` service into `docker-compose.yml`
 - [x] **SNKR-108** — add root `README.md` (setup + run instructions for backend and frontend)
-- [ ] **SNKR-109** — add configured `axios` client (`lib/api-client.ts`) with error-normalizing interceptor
+- [x] **SNKR-109** — add configured `axios` client (`lib/api-client.ts`) with error-normalizing interceptor
 - [ ] **SNKR-110** — add Zod schemas + inferred types mirroring backend DTOs
 - [ ] **SNKR-111** — add React Router setup: `/`, `/wishlist/:id`, `/search`, `/stats`
 - [ ] **SNKR-112** — add shared loading/error/empty state components
