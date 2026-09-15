@@ -97,7 +97,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-109** — add configured `axios` client (`lib/api-client.ts`) with error-normalizing interceptor
 - [x] **SNKR-110** — add Zod schemas + inferred types mirroring backend DTOs
 - [x] **SNKR-111** — add React Router setup: `/`, `/wishlist/:id`, `/search`, `/stats`
-- [ ] **SNKR-112** — add shared loading/error/empty state components
+- [x] **SNKR-112** — add shared loading/error/empty state components
 
 ## Frontend — Wishlist List & Filters
 
