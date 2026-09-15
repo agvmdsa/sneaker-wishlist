@@ -25,11 +25,22 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       KICKSDB_API_KEY: ${KICKSDB_API_KEY}
       KICKSDB_BASE_URL: ${KICKSDB_BASE_URL}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:5173}
     ports:
       - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080}
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
 
 volumes:
   db_data:
