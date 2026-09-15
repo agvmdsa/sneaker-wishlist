@@ -107,7 +107,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 
 ## Frontend — Add to Wishlist
 
-- [ ] **SNKR-116** — catalog search view + `useSneakerSearch` hook
+- [x] **SNKR-116** — catalog search view + `useSneakerSearch` hook
 - [ ] **SNKR-117** — add-to-wishlist flow: size selection, dedup check via `/wishlist/check`, submit
 
 ## Frontend — Item Lifecycle

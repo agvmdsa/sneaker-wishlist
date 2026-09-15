@@ -15,7 +15,7 @@ public class RestTemplateConfig {
                                       @Value("${app.kicksdb.api-key}") String apiKey) {
         return builder
                 .rootUri(baseUrl)
-                .defaultHeader("Authorization", apiKey)
+                .defaultHeader("Authorization", "Bearer " + apiKey)
                 .build();
     }
 }

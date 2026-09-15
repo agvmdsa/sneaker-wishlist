@@ -1,6 +1,8 @@
 package com.agvms.sneakerwishlist.exception;
 
 import com.agvms.sneakerwishlist.dto.ErrorResponseDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDto> handleValidation(MethodArgumentNotValidException ex) {
@@ -42,6 +46,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleUnexpected(Exception ex) {
+        log.error("Unexpected error", ex);
+
         ErrorResponseDto body = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
