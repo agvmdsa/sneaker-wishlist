@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { AsyncState } from '@/components/async-state';
+import { Stack } from '@/components/stack';
 import { useWishlistItem } from '../hooks/use-wishlist-item';
 import { WishlistItemSummary } from './wishlist-item-summary';
 import { EditWishlistItemForm } from './edit-wishlist-item-form';
+import { StatusChangeControl } from './status-change-control';
 
 interface WishlistItemDetailProps {
   id: number;
@@ -14,19 +16,24 @@ export function WishlistItemDetail({ id }: WishlistItemDetailProps) {
 
   return (
     <AsyncState isLoading={isLoading} error={error?.message}>
-      {item &&
-        (isEditing ? (
-          <EditWishlistItemForm
-            item={item}
-            onSaved={(updated) => {
-              setItem(updated);
-              setIsEditing(false);
-            }}
-            onCancel={() => setIsEditing(false)}
-          />
-        ) : (
-          <WishlistItemSummary item={item} onEdit={() => setIsEditing(true)} />
-        ))}
+      {item && (
+        <Stack gap="lg">
+          {isEditing ? (
+            <EditWishlistItemForm
+              item={item}
+              onSaved={(updated) => {
+                setItem(updated);
+                setIsEditing(false);
+              }}
+              onCancel={() => setIsEditing(false)}
+            />
+          ) : (
+            <WishlistItemSummary item={item} onEdit={() => setIsEditing(true)} />
+          )}
+
+          <StatusChangeControl item={item} onUpdated={setItem} />
+        </Stack>
+      )}
     </AsyncState>
   );
 }
