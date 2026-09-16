@@ -123,7 +123,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 ## Frontend — Price History & Stats
 
 - [x] **SNKR-122** — price history view on item detail
-- [ ] **SNKR-123** — stats view
+- [x] **SNKR-123** — stats view
 
 ## Frontend — Quality
 
