@@ -118,7 +118,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 
 ## Frontend — Tags
 
-- [ ] **SNKR-121** — tag management UI (add/remove) on item detail
+- [x] **SNKR-121** — tag management UI (add/remove) on item detail
 
 ## Frontend — Price History & Stats
 

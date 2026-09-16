@@ -5,6 +5,7 @@ import { useWishlistItem } from '../hooks/use-wishlist-item';
 import { WishlistItemSummary } from './wishlist-item-summary';
 import { EditWishlistItemForm } from './edit-wishlist-item-form';
 import { StatusChangeControl } from './status-change-control';
+import { TagManager } from './tag-manager';
 
 interface WishlistItemDetailProps {
   id: number;
@@ -30,6 +31,8 @@ export function WishlistItemDetail({ id }: WishlistItemDetailProps) {
           ) : (
             <WishlistItemSummary item={item} onEdit={() => setIsEditing(true)} />
           )}
+
+          <TagManager item={item} onUpdated={setItem} />
 
           <StatusChangeControl item={item} onUpdated={setItem} />
         </Stack>
