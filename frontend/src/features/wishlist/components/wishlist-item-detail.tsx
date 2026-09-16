@@ -6,6 +6,7 @@ import { WishlistItemSummary } from './wishlist-item-summary';
 import { EditWishlistItemForm } from './edit-wishlist-item-form';
 import { StatusChangeControl } from './status-change-control';
 import { TagManager } from './tag-manager';
+import { PriceHistoryView } from './price-history-view';
 
 interface WishlistItemDetailProps {
   id: number;
@@ -35,6 +36,8 @@ export function WishlistItemDetail({ id }: WishlistItemDetailProps) {
           <TagManager item={item} onUpdated={setItem} />
 
           <StatusChangeControl item={item} onUpdated={setItem} />
+
+          <PriceHistoryView itemId={item.id} />
         </Stack>
       )}
     </AsyncState>

@@ -14,7 +14,7 @@ spring:
 
 app:
   price-check:
-    cron: "0 0 3 * * MON"
+    cron: "0 0 14 * * *"
   kicksdb:
     api-key: ${KICKSDB_API_KEY:}
     base-url: ${KICKSDB_BASE_URL:https://api.kicks.dev}

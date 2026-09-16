@@ -13,7 +13,7 @@ public class PriceCheckScheduler {
         this.checkWantedItemPricesUseCase = checkWantedItemPricesUseCase;
     }
 
-    @Scheduled(cron = "${app.price-check.cron:0 0 3 * * MON}")
+    @Scheduled(cron = "${app.price-check.cron:0 0 3 * * MON}", zone = "America/Sao_Paulo")
     public void run() {
         checkWantedItemPricesUseCase.execute();
     }
