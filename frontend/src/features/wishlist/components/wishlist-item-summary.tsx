@@ -3,6 +3,7 @@ import { Button } from '@/components/button';
 import { Stack } from '@/components/stack';
 import type { WishlistItem } from '../types/wishlist-item.schema';
 import { statusTone } from '../utils/status-tone';
+import { RemoveItemAction } from './remove-item-action';
 
 interface WishlistItemSummaryProps {
   item: WishlistItem;
@@ -31,6 +32,7 @@ export function WishlistItemSummary({ item, onEdit }: WishlistItemSummaryProps) 
         <Button variant="secondary" onClick={onEdit}>
           Edit
         </Button>
+        <RemoveItemAction itemId={item.id} />
       </Stack>
     </Stack>
   );
