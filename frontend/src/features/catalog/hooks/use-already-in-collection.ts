@@ -7,15 +7,15 @@ export function useAlreadyInCollection(externalSneakerIds: string[]) {
 
   useEffect(() => {
     let isActive = true;
+    const idsToCheck = key === '' ? [] : key.split(',');
 
-    checkAlreadyInCollection(externalSneakerIds).then((result) => {
+    checkAlreadyInCollection(idsToCheck).then((result) => {
       if (isActive) setIds(new Set(result));
     });
 
     return () => {
       isActive = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
   return ids;

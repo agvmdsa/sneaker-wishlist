@@ -112,7 +112,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 
 ## Frontend — Item Lifecycle
 
-- [ ] **SNKR-118** — item detail view, edit size/notes
+- [x] **SNKR-118** — item detail view, edit size/notes
 - [ ] **SNKR-119** — status-change control with transition guard + conditional `pricePaid` field
 - [ ] **SNKR-120** — remove-item action
 

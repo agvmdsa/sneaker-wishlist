@@ -1,20 +1,17 @@
 import { useEffect, useReducer } from 'react';
-import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import type { ApiError } from '@/types/api-error';
-import { getWishlistItems, type GetWishlistItemsParams } from '../api/get-wishlist-items';
-import type { WishlistItemPage } from '../types/wishlist-item.schema';
-
-const debouncedGetWishlistItems = AwesomeDebouncePromise(getWishlistItems, 300);
+import { getWishlistItem } from '../api/get-wishlist-item';
+import type { WishlistItem } from '../types/wishlist-item.schema';
 
 interface State {
-  data: WishlistItemPage | null;
+  data: WishlistItem | null;
   isLoading: boolean;
   error: ApiError | null;
 }
 
 type Action =
   | { type: 'fetch-start' }
-  | { type: 'fetch-success'; payload: WishlistItemPage }
+  | { type: 'fetch-success'; payload: WishlistItem }
   | { type: 'fetch-error'; payload: ApiError };
 
 function reducer(state: State, action: Action): State {
@@ -30,16 +27,16 @@ function reducer(state: State, action: Action): State {
 
 const initialState: State = { data: null, isLoading: true, error: null };
 
-export function useWishlistItems({ status, tag, page, size }: GetWishlistItemsParams) {
+export function useWishlistItem(id: number) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     let isActive = true;
     dispatch({ type: 'fetch-start' });
 
-    debouncedGetWishlistItems({ status, tag, page, size })
+    getWishlistItem(id)
       .then((result) => {
-        if (isActive && result) dispatch({ type: 'fetch-success', payload: result });
+        if (isActive) dispatch({ type: 'fetch-success', payload: result });
       })
       .catch((error: ApiError) => {
         if (isActive) dispatch({ type: 'fetch-error', payload: error });
@@ -48,7 +45,11 @@ export function useWishlistItems({ status, tag, page, size }: GetWishlistItemsPa
     return () => {
       isActive = false;
     };
-  }, [status, tag, page, size]);
+  }, [id]);
 
-  return state;
+  function setItem(item: WishlistItem) {
+    dispatch({ type: 'fetch-success', payload: item });
+  }
+
+  return { ...state, setItem };
 }

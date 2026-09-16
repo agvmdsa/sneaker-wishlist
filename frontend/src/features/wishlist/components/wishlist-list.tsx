@@ -47,7 +47,9 @@ export function WishlistList() {
         emptyMessage="No items match these filters."
       >
         <Stack gap="sm">
-          {data?.content.map((item) => <WishlistItemCard key={item.id} item={item} />)}
+          {data?.content.map((item) => (
+            <WishlistItemCard key={item.id} item={item} />
+          ))}
         </Stack>
       </AsyncState>
 

@@ -2,12 +2,7 @@ import type { AxiosError } from 'axios';
 import type { ApiError } from '@/types/api-error';
 
 export function isApiErrorShape(data: unknown): data is ApiError {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    'status' in data &&
-    'message' in data
-  );
+  return typeof data === 'object' && data !== null && 'status' in data && 'message' in data;
 }
 
 export function toApiError(error: AxiosError): ApiError {

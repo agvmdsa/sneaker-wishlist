@@ -14,6 +14,7 @@ import com.agvms.sneakerwishlist.usecase.wishlist.AssignTagToWishlistItemUseCase
 import com.agvms.sneakerwishlist.usecase.wishlist.CheckAlreadyInCollectionUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.DeleteWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.GetPriceHistoryUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.GetWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.GetWishlistStatsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.ListWishlistItemsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.RemoveTagFromWishlistItemUseCase;
@@ -58,6 +59,7 @@ public class WishlistController {
     private final RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase;
     private final GetWishlistStatsUseCase getWishlistStatsUseCase;
     private final GetPriceHistoryUseCase getPriceHistoryUseCase;
+    private final GetWishlistItemUseCase getWishlistItemUseCase;
 
     public WishlistController(AddWishlistItemUseCase addWishlistItemUseCase,
                                CheckAlreadyInCollectionUseCase checkAlreadyInCollectionUseCase,
@@ -68,7 +70,8 @@ public class WishlistController {
                                AssignTagToWishlistItemUseCase assignTagToWishlistItemUseCase,
                                RemoveTagFromWishlistItemUseCase removeTagFromWishlistItemUseCase,
                                GetWishlistStatsUseCase getWishlistStatsUseCase,
-                               GetPriceHistoryUseCase getPriceHistoryUseCase) {
+                               GetPriceHistoryUseCase getPriceHistoryUseCase,
+                               GetWishlistItemUseCase getWishlistItemUseCase) {
         this.addWishlistItemUseCase = addWishlistItemUseCase;
         this.checkAlreadyInCollectionUseCase = checkAlreadyInCollectionUseCase;
         this.listWishlistItemsUseCase = listWishlistItemsUseCase;
@@ -79,6 +82,7 @@ public class WishlistController {
         this.removeTagFromWishlistItemUseCase = removeTagFromWishlistItemUseCase;
         this.getWishlistStatsUseCase = getWishlistStatsUseCase;
         this.getPriceHistoryUseCase = getPriceHistoryUseCase;
+        this.getWishlistItemUseCase = getWishlistItemUseCase;
     }
 
     @Operation(summary = "Add a sneaker to the collection", description = "Idempotent on (external sneaker id, size) — retrying with the same pair returns the existing item instead of duplicating it.")
@@ -107,6 +111,17 @@ public class WishlistController {
                                        @RequestParam(required = false) String tag,
                                        Pageable pageable) {
         return listWishlistItemsUseCase.execute(status, tag, pageable);
+    }
+
+    @Operation(summary = "Get a single collection item by id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Item found"),
+            @ApiResponse(responseCode = "404", description = "Item not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<WishlistItemDto> getItem(@PathVariable Long id) {
+        return ResponseEntity.ok(getWishlistItemUseCase.execute(id));
     }
 
     @Operation(summary = "Edit a collection item's personal data", description = "Only size and notes are editable here.")

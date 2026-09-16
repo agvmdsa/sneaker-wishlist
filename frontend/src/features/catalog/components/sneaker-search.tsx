@@ -40,7 +40,9 @@ export function SneakerSearch() {
               <SneakerSearchResultCard
                 key={sneaker.id}
                 sneaker={sneaker}
-                isInCollection={alreadyInCollectionIds.has(sneaker.id) || justAddedIds.has(sneaker.id)}
+                isInCollection={
+                  alreadyInCollectionIds.has(sneaker.id) || justAddedIds.has(sneaker.id)
+                }
                 onAdded={handleAdded}
               />
             ))}
