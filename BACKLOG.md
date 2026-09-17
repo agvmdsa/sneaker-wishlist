@@ -127,7 +127,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 
 ## Frontend — Quality
 
-- [ ] **SNKR-124** — automated frontend tests (Vitest + React Testing Library) for hooks and key components
+- [x] **SNKR-124** — automated frontend tests (Vitest + React Testing Library) for hooks and key components
 
 ## Stretch Goals (end of project, only if time remains)
 
