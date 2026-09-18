@@ -1,13 +1,15 @@
-package com.agvms.sneakerwishlist.usecase.sneaker;
+package com.agvms.sneakerwishlist.usecase.sneaker.query;
 
 import com.agvms.sneakerwishlist.client.SneakerCatalogClient;
 import com.agvms.sneakerwishlist.dto.SneakerSummaryDto;
+import com.agvms.sneakerwishlist.usecase.QueryHandler;
+import com.agvms.sneakerwishlist.usecase.sneaker.SneakerResponseMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SearchSneakersUseCase {
+public class SearchSneakersUseCase implements QueryHandler<SearchSneakersQuery, List<SneakerSummaryDto>> {
 
     private final SneakerCatalogClient sneakerCatalogClient;
     private final SneakerResponseMapper sneakerResponseMapper;
@@ -17,8 +19,9 @@ public class SearchSneakersUseCase {
         this.sneakerResponseMapper = sneakerResponseMapper;
     }
 
-    public List<SneakerSummaryDto> execute(String query, String filters, String sort, Integer page, Integer limit) {
-        String rawBody = sneakerCatalogClient.search(query, filters, sort, page, limit);
+    @Override
+    public List<SneakerSummaryDto> execute(SearchSneakersQuery query) {
+        String rawBody = sneakerCatalogClient.search(query.query(), query.filters(), query.sort(), query.page(), query.limit());
         return sneakerResponseMapper.toSummaryList(rawBody);
     }
 }

@@ -134,7 +134,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-125** — define `Command`/`Query`/`CommandHandler`/`QueryHandler` marker interfaces
 - [x] **SNKR-126** — move wishlist write Use Cases into `usecase.wishlist.command`, implement `CommandHandler`
 - [x] **SNKR-127** — move wishlist read Use Cases into `usecase.wishlist.query`, implement `QueryHandler`
-- [ ] **SNKR-128** — move sneaker catalog Use Cases into `usecase.sneaker.query`, implement `QueryHandler`
+- [x] **SNKR-128** — move sneaker catalog Use Cases into `usecase.sneaker.query`, implement `QueryHandler`
 - [ ] **SNKR-129** — update the constitution's Principle I to name the Command/Query convention
 - [x] **SNKR-130** — upgrade `spring-boot-starter-parent` 3.5.3 → 4.1.1
 - [ ] **SNKR-131** — add Testcontainers-backed integration tests for repositories and controllers

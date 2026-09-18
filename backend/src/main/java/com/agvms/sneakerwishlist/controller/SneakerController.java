@@ -3,8 +3,10 @@ package com.agvms.sneakerwishlist.controller;
 import com.agvms.sneakerwishlist.client.SneakerCatalogClient;
 import com.agvms.sneakerwishlist.dto.ErrorResponseDto;
 import com.agvms.sneakerwishlist.dto.SneakerSummaryDto;
-import com.agvms.sneakerwishlist.usecase.sneaker.GetSneakerByIdUseCase;
-import com.agvms.sneakerwishlist.usecase.sneaker.SearchSneakersUseCase;
+import com.agvms.sneakerwishlist.usecase.sneaker.query.GetSneakerByIdQuery;
+import com.agvms.sneakerwishlist.usecase.sneaker.query.GetSneakerByIdUseCase;
+import com.agvms.sneakerwishlist.usecase.sneaker.query.SearchSneakersQuery;
+import com.agvms.sneakerwishlist.usecase.sneaker.query.SearchSneakersUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -50,7 +52,7 @@ public class SneakerController {
                                            @RequestParam(required = false) String sort,
                                            @RequestParam(required = false) Integer page,
                                            @RequestParam(required = false) Integer limit) {
-        return searchSneakersUseCase.execute(query, filters, sort, page, limit);
+        return searchSneakersUseCase.execute(new SearchSneakersQuery(query, filters, sort, page, limit));
     }
 
     @Operation(summary = "Get a sneaker by id")
@@ -61,7 +63,7 @@ public class SneakerController {
     })
     @GetMapping("/{id}")
     public SneakerSummaryDto getById(@PathVariable String id) {
-        return getSneakerByIdUseCase.execute(id);
+        return getSneakerByIdUseCase.execute(new GetSneakerByIdQuery(id));
     }
 
     @Operation(summary = "List brands", description = "Raw passthrough to KicksDB, cached — brand data rarely changes.")
