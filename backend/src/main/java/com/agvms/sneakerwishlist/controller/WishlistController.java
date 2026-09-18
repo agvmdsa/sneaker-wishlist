@@ -9,11 +9,6 @@ import com.agvms.sneakerwishlist.dto.WishlistItemCreateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemUpdateDto;
 import com.agvms.sneakerwishlist.entity.WishlistStatus;
-import com.agvms.sneakerwishlist.usecase.wishlist.CheckAlreadyInCollectionUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.GetPriceHistoryUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.GetWishlistItemUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.GetWishlistStatsUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.ListWishlistItemsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.command.AddWishlistItemCommand;
 import com.agvms.sneakerwishlist.usecase.wishlist.command.AddWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.command.AssignTagToWishlistItemCommand;
@@ -26,6 +21,16 @@ import com.agvms.sneakerwishlist.usecase.wishlist.command.UpdateWishlistItemComm
 import com.agvms.sneakerwishlist.usecase.wishlist.command.UpdateWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.command.UpdateWishlistStatusCommand;
 import com.agvms.sneakerwishlist.usecase.wishlist.command.UpdateWishlistStatusUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.CheckAlreadyInCollectionQuery;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.CheckAlreadyInCollectionUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.GetPriceHistoryQuery;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.GetPriceHistoryUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.GetWishlistItemQuery;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.GetWishlistItemUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.GetWishlistStatsQuery;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.GetWishlistStatsUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.ListWishlistItemsQuery;
+import com.agvms.sneakerwishlist.usecase.wishlist.query.ListWishlistItemsUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -107,7 +112,7 @@ public class WishlistController {
     @ApiResponse(responseCode = "200", description = "Subset of the given ids that already exist as active items")
     @PostMapping("/check")
     public ResponseEntity<Set<String>> checkAlreadyInCollection(@RequestBody List<String> externalSneakerIds) {
-        return ResponseEntity.ok(checkAlreadyInCollectionUseCase.execute(externalSneakerIds));
+        return ResponseEntity.ok(checkAlreadyInCollectionUseCase.execute(new CheckAlreadyInCollectionQuery(externalSneakerIds)));
     }
 
     @Operation(summary = "List the collection", description = "Paginated, filterable by status and tag (tag matches by prefix, case-insensitive). Defaults to WANT and OWNED items when no status is given.")
@@ -116,7 +121,7 @@ public class WishlistController {
     public Page<WishlistItemDto> list(@RequestParam(required = false) WishlistStatus status,
                                        @RequestParam(required = false) String tag,
                                        Pageable pageable) {
-        return listWishlistItemsUseCase.execute(status, tag, pageable);
+        return listWishlistItemsUseCase.execute(new ListWishlistItemsQuery(status, tag, pageable));
     }
 
     @Operation(summary = "Get a single collection item by id")
@@ -127,7 +132,7 @@ public class WishlistController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<WishlistItemDto> getItem(@PathVariable Long id) {
-        return ResponseEntity.ok(getWishlistItemUseCase.execute(id));
+        return ResponseEntity.ok(getWishlistItemUseCase.execute(new GetWishlistItemQuery(id)));
     }
 
     @Operation(summary = "Edit a collection item's personal data", description = "Only size and notes are editable here.")
@@ -199,13 +204,13 @@ public class WishlistController {
     })
     @GetMapping("/{id}/price-history")
     public List<PriceHistoryDto> priceHistory(@PathVariable Long id) {
-        return getPriceHistoryUseCase.execute(id);
+        return getPriceHistoryUseCase.execute(new GetPriceHistoryQuery(id));
     }
 
     @Operation(summary = "Get collection statistics", description = "Total active items, total spent, estimated wishlist value, and the most frequent brand.")
     @ApiResponse(responseCode = "200", description = "Stats computed over active items")
     @GetMapping("/stats")
     public StatsDto stats() {
-        return getWishlistStatsUseCase.execute();
+        return getWishlistStatsUseCase.execute(new GetWishlistStatsQuery());
     }
 }

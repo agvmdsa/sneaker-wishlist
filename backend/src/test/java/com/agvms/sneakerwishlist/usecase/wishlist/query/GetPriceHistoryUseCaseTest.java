@@ -1,4 +1,4 @@
-package com.agvms.sneakerwishlist.usecase.wishlist;
+package com.agvms.sneakerwishlist.usecase.wishlist.query;
 
 import com.agvms.sneakerwishlist.dto.PriceHistoryDto;
 import com.agvms.sneakerwishlist.entity.Brand;
@@ -38,7 +38,7 @@ class GetPriceHistoryUseCaseTest {
     void throwsNotFoundWhenItemDoesNotExist() {
         when(wishlistItemRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> useCase.execute(1L))
+        assertThatThrownBy(() -> useCase.execute(new GetPriceHistoryQuery(1L)))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("not found");
     }
@@ -54,7 +54,7 @@ class GetPriceHistoryUseCaseTest {
                         new PriceHistory(item, BigDecimal.valueOf(190))
                 ));
 
-        List<PriceHistoryDto> result = useCase.execute(1L);
+        List<PriceHistoryDto> result = useCase.execute(new GetPriceHistoryQuery(1L));
 
         assertThat(result).hasSize(2);
         assertThat(result.get(0).price()).isEqualByComparingTo("200");
