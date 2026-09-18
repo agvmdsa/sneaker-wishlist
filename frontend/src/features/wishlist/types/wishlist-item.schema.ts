@@ -28,9 +28,11 @@ export type WishlistItem = z.infer<typeof wishlistItemSchema>;
 
 export const wishlistItemPageSchema = z.object({
   content: z.array(wishlistItemSchema),
-  totalElements: z.number(),
-  totalPages: z.number(),
-  number: z.number(),
-  size: z.number(),
+  page: z.object({
+    size: z.number(),
+    totalElements: z.number(),
+    totalPages: z.number(),
+    number: z.number(),
+  }),
 });
 export type WishlistItemPage = z.infer<typeof wishlistItemPageSchema>;

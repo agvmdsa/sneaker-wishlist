@@ -53,7 +53,7 @@ export function WishlistList() {
         </Stack>
       </AsyncState>
 
-      {data && data.totalPages > 1 && (
+      {data && data.page.totalPages > 1 && (
         <Stack direction="row" gap="sm">
           <Button
             variant="secondary"
@@ -64,7 +64,7 @@ export function WishlistList() {
           </Button>
           <Button
             variant="secondary"
-            disabled={page + 1 >= data.totalPages}
+            disabled={page + 1 >= data.page.totalPages}
             onClick={() => setPage((current) => current + 1)}
           >
             Next
