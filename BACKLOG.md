@@ -136,7 +136,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [ ] **SNKR-127** — move wishlist read Use Cases into `usecase.wishlist.query`, implement `QueryHandler`
 - [ ] **SNKR-128** — move sneaker catalog Use Cases into `usecase.sneaker.query`, implement `QueryHandler`
 - [ ] **SNKR-129** — update the constitution's Principle I to name the Command/Query convention
-- [ ] **SNKR-130** — upgrade `spring-boot-starter-parent` 3.5.3 → 4.1.1
+- [x] **SNKR-130** — upgrade `spring-boot-starter-parent` 3.5.3 → 4.1.1
 - [ ] **SNKR-131** — add Testcontainers-backed integration tests for repositories and controllers
 - [ ] **SNKR-132** — stabilize paginated response serialization: enable `@EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)` so `Page<T>` responses (`GET /api/wishlist`) serialize through Spring Data's `PagedModel` instead of raw `PageImpl`, whose JSON shape isn't guaranteed stable across Spring Data versions (see startup warning); update `wishlistItemPageSchema` on the frontend to match the new shape
 - [ ] **SNKR-133** — backend: real-time price-drop notifications via STOMP over WebSocket (`spring-boot-starter-websocket`, `@EnableWebSocketMessageBroker`, `/topic/price-drops` destination). `CheckWantedItemPricesUseCase` publishes to the topic via `SimpMessagingTemplate` whenever it detects `priceDropDetected`. Global broadcast, no per-user scoping (matches the current single-user model — revisit if/when auth is added)

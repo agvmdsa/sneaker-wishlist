@@ -11,6 +11,8 @@ spring:
     open-in-view: false
   flyway:
     enabled: true
+  jackson:
+    use-jackson2-defaults: true
 
 app:
   price-check:
