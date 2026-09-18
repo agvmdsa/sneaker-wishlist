@@ -1,4 +1,4 @@
-package com.agvms.sneakerwishlist.usecase.wishlist;
+package com.agvms.sneakerwishlist.usecase.wishlist.command;
 
 import com.agvms.sneakerwishlist.client.SneakerCatalogClient;
 import com.agvms.sneakerwishlist.dto.SneakerSummaryDto;
@@ -7,6 +7,7 @@ import com.agvms.sneakerwishlist.entity.WishlistItem;
 import com.agvms.sneakerwishlist.entity.WishlistStatus;
 import com.agvms.sneakerwishlist.repository.PriceHistoryRepository;
 import com.agvms.sneakerwishlist.repository.WishlistItemRepository;
+import com.agvms.sneakerwishlist.usecase.CommandHandler;
 import com.agvms.sneakerwishlist.usecase.sneaker.SneakerResponseMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-public class CheckWantedItemPricesUseCase {
+public class CheckWantedItemPricesUseCase implements CommandHandler<CheckWantedItemPricesCommand, Void> {
 
     private static final Logger log = LoggerFactory.getLogger(CheckWantedItemPricesUseCase.class);
 
@@ -38,8 +39,9 @@ public class CheckWantedItemPricesUseCase {
         this.sneakerResponseMapper = sneakerResponseMapper;
     }
 
+    @Override
     @Transactional
-    public void execute() {
+    public Void execute(CheckWantedItemPricesCommand command) {
         Page<WishlistItem> wantedItems = wishlistItemRepository.findByStatusInAndDeletedAtIsNull(
                 List.of(WishlistStatus.WANT), Pageable.unpaged());
 
@@ -60,5 +62,6 @@ public class CheckWantedItemPricesUseCase {
                         item.getId(), item.getExternalSneakerId(), e.getMessage());
             }
         }
+        return null;
     }
 }

@@ -132,7 +132,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 ## Stretch Goals (end of project, only if time remains)
 
 - [x] **SNKR-125** — define `Command`/`Query`/`CommandHandler`/`QueryHandler` marker interfaces
-- [ ] **SNKR-126** — move wishlist write Use Cases into `usecase.wishlist.command`, implement `CommandHandler`
+- [x] **SNKR-126** — move wishlist write Use Cases into `usecase.wishlist.command`, implement `CommandHandler`
 - [ ] **SNKR-127** — move wishlist read Use Cases into `usecase.wishlist.query`, implement `QueryHandler`
 - [ ] **SNKR-128** — move sneaker catalog Use Cases into `usecase.sneaker.query`, implement `QueryHandler`
 - [ ] **SNKR-129** — update the constitution's Principle I to name the Command/Query convention

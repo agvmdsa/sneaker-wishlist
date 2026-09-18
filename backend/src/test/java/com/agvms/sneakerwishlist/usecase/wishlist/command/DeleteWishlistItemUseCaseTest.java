@@ -1,4 +1,4 @@
-package com.agvms.sneakerwishlist.usecase.wishlist;
+package com.agvms.sneakerwishlist.usecase.wishlist.command;
 
 import com.agvms.sneakerwishlist.entity.Brand;
 import com.agvms.sneakerwishlist.entity.WishlistItem;
@@ -31,7 +31,7 @@ class DeleteWishlistItemUseCaseTest {
     void throwsNotFoundWhenItemDoesNotExist() {
         when(wishlistItemRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> useCase.execute(1L))
+        assertThatThrownBy(() -> useCase.execute(new DeleteWishlistItemCommand(1L)))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("not found");
     }
@@ -42,7 +42,7 @@ class DeleteWishlistItemUseCaseTest {
                 BigDecimal.valueOf(220), "10", WishlistStatus.WANT);
         when(wishlistItemRepository.findById(1L)).thenReturn(Optional.of(item));
 
-        useCase.execute(1L);
+        useCase.execute(new DeleteWishlistItemCommand(1L));
 
         assertThat(item.getDeletedAt()).isNotNull();
     }

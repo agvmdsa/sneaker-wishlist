@@ -1,4 +1,4 @@
-package com.agvms.sneakerwishlist.usecase.wishlist;
+package com.agvms.sneakerwishlist.usecase.wishlist.command;
 
 import com.agvms.sneakerwishlist.dto.StatusUpdateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemDto;
@@ -38,7 +38,7 @@ class UpdateWishlistStatusUseCaseTest {
     void throwsNotFoundWhenItemDoesNotExist() {
         when(wishlistItemRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> useCase.execute(1L, new StatusUpdateDto(WishlistStatus.OWNED, BigDecimal.TEN)))
+        assertThatThrownBy(() -> useCase.execute(new UpdateWishlistStatusCommand(1L, new StatusUpdateDto(WishlistStatus.OWNED, BigDecimal.TEN))))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("not found");
     }
@@ -48,7 +48,7 @@ class UpdateWishlistStatusUseCaseTest {
         WishlistItem item = itemWithStatus(WishlistStatus.WANT);
         when(wishlistItemRepository.findById(1L)).thenReturn(Optional.of(item));
 
-        WishlistItemDto result = useCase.execute(1L, new StatusUpdateDto(WishlistStatus.WANT, null));
+        WishlistItemDto result = useCase.execute(new UpdateWishlistStatusCommand(1L, new StatusUpdateDto(WishlistStatus.WANT, null)));
 
         assertThat(result.status()).isEqualTo(WishlistStatus.WANT);
     }
@@ -58,7 +58,7 @@ class UpdateWishlistStatusUseCaseTest {
         WishlistItem item = itemWithStatus(WishlistStatus.WANT);
         when(wishlistItemRepository.findById(1L)).thenReturn(Optional.of(item));
 
-        assertThatThrownBy(() -> useCase.execute(1L, new StatusUpdateDto(WishlistStatus.SOLD, null)))
+        assertThatThrownBy(() -> useCase.execute(new UpdateWishlistStatusCommand(1L, new StatusUpdateDto(WishlistStatus.SOLD, null))))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("Cannot transition");
     }
@@ -68,7 +68,7 @@ class UpdateWishlistStatusUseCaseTest {
         WishlistItem item = itemWithStatus(WishlistStatus.WANT);
         when(wishlistItemRepository.findById(1L)).thenReturn(Optional.of(item));
 
-        assertThatThrownBy(() -> useCase.execute(1L, new StatusUpdateDto(WishlistStatus.OWNED, null)))
+        assertThatThrownBy(() -> useCase.execute(new UpdateWishlistStatusCommand(1L, new StatusUpdateDto(WishlistStatus.OWNED, null))))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("pricePaid");
     }
@@ -78,7 +78,7 @@ class UpdateWishlistStatusUseCaseTest {
         WishlistItem item = itemWithStatus(WishlistStatus.WANT);
         when(wishlistItemRepository.findById(1L)).thenReturn(Optional.of(item));
 
-        WishlistItemDto result = useCase.execute(1L, new StatusUpdateDto(WishlistStatus.OWNED, BigDecimal.valueOf(180)));
+        WishlistItemDto result = useCase.execute(new UpdateWishlistStatusCommand(1L, new StatusUpdateDto(WishlistStatus.OWNED, BigDecimal.valueOf(180))));
 
         assertThat(result.status()).isEqualTo(WishlistStatus.OWNED);
         assertThat(result.pricePaid()).isEqualByComparingTo("180");

@@ -9,17 +9,23 @@ import com.agvms.sneakerwishlist.dto.WishlistItemCreateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemUpdateDto;
 import com.agvms.sneakerwishlist.entity.WishlistStatus;
-import com.agvms.sneakerwishlist.usecase.wishlist.AddWishlistItemUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.AssignTagToWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.CheckAlreadyInCollectionUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.DeleteWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.GetPriceHistoryUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.GetWishlistItemUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.GetWishlistStatsUseCase;
 import com.agvms.sneakerwishlist.usecase.wishlist.ListWishlistItemsUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.RemoveTagFromWishlistItemUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.UpdateWishlistItemUseCase;
-import com.agvms.sneakerwishlist.usecase.wishlist.UpdateWishlistStatusUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.AddWishlistItemCommand;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.AddWishlistItemUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.AssignTagToWishlistItemCommand;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.AssignTagToWishlistItemUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.DeleteWishlistItemCommand;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.DeleteWishlistItemUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.RemoveTagFromWishlistItemCommand;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.RemoveTagFromWishlistItemUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.UpdateWishlistItemCommand;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.UpdateWishlistItemUseCase;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.UpdateWishlistStatusCommand;
+import com.agvms.sneakerwishlist.usecase.wishlist.command.UpdateWishlistStatusUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -93,7 +99,7 @@ public class WishlistController {
     })
     @PostMapping
     public ResponseEntity<WishlistItemDto> addItem(@Valid @RequestBody WishlistItemCreateDto dto) {
-        WishlistItemDto created = addWishlistItemUseCase.execute(dto);
+        WishlistItemDto created = addWishlistItemUseCase.execute(new AddWishlistItemCommand(dto));
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
@@ -133,7 +139,7 @@ public class WishlistController {
     @PatchMapping("/{id}")
     public ResponseEntity<WishlistItemDto> updateItem(@PathVariable Long id,
                                                        @RequestBody WishlistItemUpdateDto dto) {
-        return ResponseEntity.ok(updateWishlistItemUseCase.execute(id, dto));
+        return ResponseEntity.ok(updateWishlistItemUseCase.execute(new UpdateWishlistItemCommand(id, dto)));
     }
 
     @Operation(summary = "Remove an item from the collection", description = "Soft delete — the row is kept, marked as deleted.")
@@ -144,7 +150,7 @@ public class WishlistController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
-        deleteWishlistItemUseCase.execute(id);
+        deleteWishlistItemUseCase.execute(new DeleteWishlistItemCommand(id));
         return ResponseEntity.noContent().build();
     }
 
@@ -159,7 +165,7 @@ public class WishlistController {
     @PatchMapping("/{id}/status")
     public ResponseEntity<WishlistItemDto> updateStatus(@PathVariable Long id,
                                                          @Valid @RequestBody StatusUpdateDto dto) {
-        return ResponseEntity.ok(updateWishlistStatusUseCase.execute(id, dto));
+        return ResponseEntity.ok(updateWishlistStatusUseCase.execute(new UpdateWishlistStatusCommand(id, dto)));
     }
 
     @Operation(summary = "Assign a tag to an item", description = "Creates the tag on the fly if it doesn't exist yet. Only `name` is read from the request body — `id` is response-only and ignored here.")
@@ -170,7 +176,7 @@ public class WishlistController {
     })
     @PostMapping("/{id}/tags")
     public ResponseEntity<WishlistItemDto> assignTag(@PathVariable Long id, @RequestBody TagDto dto) {
-        return ResponseEntity.ok(assignTagToWishlistItemUseCase.execute(id, dto));
+        return ResponseEntity.ok(assignTagToWishlistItemUseCase.execute(new AssignTagToWishlistItemCommand(id, dto)));
     }
 
     @Operation(summary = "Remove a tag from an item")
@@ -181,7 +187,7 @@ public class WishlistController {
     })
     @DeleteMapping("/{id}/tags/{tagId}")
     public ResponseEntity<Void> removeTag(@PathVariable Long id, @PathVariable Long tagId) {
-        removeTagFromWishlistItemUseCase.execute(id, tagId);
+        removeTagFromWishlistItemUseCase.execute(new RemoveTagFromWishlistItemCommand(id, tagId));
         return ResponseEntity.noContent().build();
     }
 

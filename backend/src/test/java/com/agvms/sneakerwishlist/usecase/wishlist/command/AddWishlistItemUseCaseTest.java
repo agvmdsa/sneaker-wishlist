@@ -1,4 +1,4 @@
-package com.agvms.sneakerwishlist.usecase.wishlist;
+package com.agvms.sneakerwishlist.usecase.wishlist.command;
 
 import com.agvms.sneakerwishlist.dto.WishlistItemCreateDto;
 import com.agvms.sneakerwishlist.dto.WishlistItemDto;
@@ -45,7 +45,7 @@ class AddWishlistItemUseCaseTest {
         when(wishlistItemRepository.findByExternalSneakerIdAndSizeAndDeletedAtIsNull("ext-1", "10"))
                 .thenReturn(Optional.of(existing));
 
-        WishlistItemDto result = useCase.execute(dto);
+        WishlistItemDto result = useCase.execute(new AddWishlistItemCommand(dto));
 
         assertThat(result.externalSneakerId()).isEqualTo("ext-1");
         verify(wishlistItemRepository, never()).save(any());
@@ -60,7 +60,7 @@ class AddWishlistItemUseCaseTest {
         when(brandRepository.findByNameIgnoreCase("Jordan")).thenReturn(Optional.of(brand));
         when(wishlistItemRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        WishlistItemDto result = useCase.execute(dto);
+        WishlistItemDto result = useCase.execute(new AddWishlistItemCommand(dto));
 
         assertThat(result.status()).isEqualTo(WishlistStatus.WANT);
         assertThat(result.brand()).isEqualTo("Jordan");
@@ -75,7 +75,7 @@ class AddWishlistItemUseCaseTest {
         when(brandRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(wishlistItemRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        useCase.execute(dto);
+        useCase.execute(new AddWishlistItemCommand(dto));
 
         verify(brandRepository).save(any());
     }

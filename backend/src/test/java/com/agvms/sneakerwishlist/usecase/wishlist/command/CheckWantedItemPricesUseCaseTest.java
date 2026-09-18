@@ -1,4 +1,4 @@
-package com.agvms.sneakerwishlist.usecase.wishlist;
+package com.agvms.sneakerwishlist.usecase.wishlist.command;
 
 import com.agvms.sneakerwishlist.client.SneakerCatalogClient;
 import com.agvms.sneakerwishlist.dto.SneakerSummaryDto;
@@ -63,7 +63,7 @@ class CheckWantedItemPricesUseCaseTest {
         when(sneakerResponseMapper.toSummary("raw-json"))
                 .thenReturn(new SneakerSummaryDto("ext-ok", "Jordan 4", "Jordan", "http://img", BigDecimal.valueOf(190), "sneakers"));
 
-        assertThatCode(() -> useCase.execute()).doesNotThrowAnyException();
+        assertThatCode(() -> useCase.execute(new CheckWantedItemPricesCommand())).doesNotThrowAnyException();
 
         verify(priceHistoryRepository).save(argThat((PriceHistory ph) -> ph.getPrice().compareTo(BigDecimal.valueOf(190)) == 0));
         assertThat(healthyItem.isPriceDropDetected()).isTrue();
