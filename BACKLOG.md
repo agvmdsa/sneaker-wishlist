@@ -131,7 +131,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 
 ## Frontend — Navigation
 
-- [ ] **SNKR-136** — restructure router to a nested layout route (`AppLayout` + `Outlet`), no visual change yet
+- [x] **SNKR-136** — restructure router to a nested layout route (`AppLayout` + `Outlet`), no visual change yet
 - [ ] **SNKR-137** — add a retractable sidebar (`useState` + `localStorage` persistence via `useEffect`) with `NavLink`s to Wishlist/Search/Stats, wired into `AppLayout`
 
 ## Stretch Goals (end of project, only if time remains)
