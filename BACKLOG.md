@@ -138,6 +138,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 ## Frontend — Design System
 
 - [x] **SNKR-139** — add `Collapsible` component (Render Props pattern)
+- [x] **SNKR-140** — add `useClickOutside` hook + `Menu` compound component (Hooks Pattern + Compound Components)
 
 ## Stretch Goals (end of project, only if time remains)
 
