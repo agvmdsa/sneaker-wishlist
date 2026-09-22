@@ -128,6 +128,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 ## Frontend — Quality
 
 - [x] **SNKR-124** — automated frontend tests (Vitest + React Testing Library) for hooks and key components
+- [ ] **SNKR-138** — add shared `formatCurrency` util (`src/lib/format-currency.ts`, `Intl.NumberFormat`), replacing the naive `$${value}` string concatenation duplicated across `catalog`, `stats`, and `wishlist`
 
 ## Frontend — Navigation
 
