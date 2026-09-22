@@ -1,5 +1,6 @@
 import { AsyncState } from '@/components/async-state';
 import { Stack } from '@/components/stack';
+import { formatCurrency } from '@/lib/format-currency';
 import { usePriceHistory } from '../hooks/use-price-history';
 
 interface PriceHistoryViewProps {
@@ -27,7 +28,7 @@ export function PriceHistoryView({ itemId }: PriceHistoryViewProps) {
               <span className="text-sm text-text-muted">
                 {new Date(entry.checkedAt).toLocaleString()}
               </span>
-              <span className="font-medium">${entry.price}</span>
+              <span className="font-medium">{formatCurrency(entry.price)}</span>
             </div>
           ))}
         </Stack>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Badge } from '@/components/badge';
 import { Button } from '@/components/button';
 import { Stack } from '@/components/stack';
+import { formatCurrency } from '@/lib/format-currency';
 import type { CatalogSneaker } from '../types/catalog-sneaker.schema';
 import { AddToWishlistForm } from './add-to-wishlist-form';
 
@@ -28,7 +29,7 @@ export function SneakerSearchResultCard({
           <p className="font-medium">{sneaker.title}</p>
           <p className="text-sm text-text-muted">{sneaker.brand}</p>
         </div>
-        {sneaker.avgPrice !== null && <Badge tone="info">${sneaker.avgPrice}</Badge>}
+        {sneaker.avgPrice !== null && <Badge tone="info">{formatCurrency(sneaker.avgPrice)}</Badge>}
 
         {isInCollection ? (
           <Badge tone="success">Already added</Badge>
