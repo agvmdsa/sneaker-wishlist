@@ -11,7 +11,7 @@ export function WishlistItemCard({ item }: WishlistItemCardProps) {
   return (
     <Link
       to={`/wishlist/${item.id}`}
-      className="flex items-center gap-4 border border-border rounded p-4"
+      className="flex items-center gap-4 border border-border rounded-md bg-surface p-4 shadow-sm transition-colors hover:bg-border/20"
     >
       {item.imageUrl && (
         <img src={item.imageUrl} alt={item.name} className="w-16 h-16 object-contain" />

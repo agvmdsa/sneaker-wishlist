@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AsyncState } from '@/components/async-state';
+import { Card } from '@/components/card';
 import { Stack } from '@/components/stack';
 import { useWishlistItem } from '../hooks/use-wishlist-item';
 import { WishlistItemSummary } from './wishlist-item-summary';
@@ -20,24 +21,30 @@ export function WishlistItemDetail({ id }: WishlistItemDetailProps) {
     <AsyncState isLoading={isLoading} error={error?.message}>
       {item && (
         <Stack gap="lg">
-          {isEditing ? (
-            <EditWishlistItemForm
-              item={item}
-              onSaved={(updated) => {
-                setItem(updated);
-                setIsEditing(false);
-              }}
-              onCancel={() => setIsEditing(false)}
-            />
-          ) : (
-            <WishlistItemSummary item={item} onEdit={() => setIsEditing(true)} />
-          )}
+          <Card>
+            {isEditing ? (
+              <EditWishlistItemForm
+                item={item}
+                onSaved={(updated) => {
+                  setItem(updated);
+                  setIsEditing(false);
+                }}
+                onCancel={() => setIsEditing(false)}
+              />
+            ) : (
+              <WishlistItemSummary item={item} onEdit={() => setIsEditing(true)} />
+            )}
+          </Card>
 
-          <TagManager item={item} onUpdated={setItem} />
+          <Card>
+            <TagManager item={item} onUpdated={setItem} />
+          </Card>
 
           <StatusChangeControl item={item} onUpdated={setItem} />
 
-          <PriceHistoryView itemId={item.id} />
+          <Card>
+            <PriceHistoryView itemId={item.id} />
+          </Card>
         </Stack>
       )}
     </AsyncState>

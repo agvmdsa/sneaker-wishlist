@@ -20,7 +20,7 @@ export function SneakerSearchResultCard({
   const [isAdding, setIsAdding] = useState(false);
 
   return (
-    <div className="border border-border rounded p-4">
+    <div className="border border-border rounded-md bg-surface p-4 shadow-sm">
       <Stack direction="row" gap="md">
         {sneaker.imageUrl && (
           <img src={sneaker.imageUrl} alt={sneaker.title} className="w-16 h-16 object-contain" />

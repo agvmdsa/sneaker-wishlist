@@ -9,13 +9,13 @@ interface BadgeProps {
 const toneClasses = {
   neutral: 'bg-border text-text',
   info: 'bg-primary text-primary-contrast',
-  success: 'bg-green-700 text-white',
+  success: 'bg-success text-primary-contrast',
   danger: 'bg-danger text-white',
 } as const;
 
 export function Badge({ children, tone = 'neutral' }: BadgeProps) {
   return (
-    <span className={cn('inline-flex items-center rounded px-2 py-1 text-sm', toneClasses[tone])}>
+    <span className={cn('inline-flex items-center rounded-md px-2 py-1 text-sm', toneClasses[tone])}>
       {children}
     </span>
   );

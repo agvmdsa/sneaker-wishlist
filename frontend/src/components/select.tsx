@@ -16,7 +16,7 @@ export function Select({ label, error, id, children, ...rest }: SelectProps) {
       </label>
       <select
         id={selectId}
-        className="border border-border rounded px-3 py-2 text-base bg-surface text-text focus:outline-2 focus:outline-primary focus:outline-offset-1"
+        className="border border-border rounded-md px-3 py-2 text-base bg-surface text-text shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-1 focus:ring-offset-bg"
         {...rest}
       >
         {children}

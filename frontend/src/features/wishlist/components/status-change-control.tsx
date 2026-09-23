@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { Card } from '@/components/card';
 import { Select } from '@/components/select';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
@@ -62,37 +63,39 @@ export function StatusChangeControl({ item, onUpdated }: StatusChangeControlProp
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack gap="sm">
-        <Select
-          label="Change status to"
-          value={target}
-          onChange={(event) => setTarget(event.target.value as WishlistStatus | '')}
-          error={target === '' ? error : undefined}
-        >
-          <option value="">Select...</option>
-          {validTargets.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </Select>
+    <Card>
+      <form onSubmit={handleSubmit}>
+        <Stack gap="sm">
+          <Select
+            label="Change status to"
+            value={target}
+            onChange={(event) => setTarget(event.target.value as WishlistStatus | '')}
+            error={target === '' ? error : undefined}
+          >
+            <option value="">Select...</option>
+            {validTargets.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </Select>
 
-        {target === 'OWNED' && (
-          <Input
-            label="Price paid"
-            type="number"
-            step="0.01"
-            value={pricePaid}
-            onChange={(event) => setPricePaid(event.target.value)}
-            error={target === 'OWNED' ? error : undefined}
-          />
-        )}
+          {target === 'OWNED' && (
+            <Input
+              label="Price paid"
+              type="number"
+              step="0.01"
+              value={pricePaid}
+              onChange={(event) => setPricePaid(event.target.value)}
+              error={target === 'OWNED' ? error : undefined}
+            />
+          )}
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Updating...' : 'Update status'}
-        </Button>
-      </Stack>
-    </form>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Updating...' : 'Update status'}
+          </Button>
+        </Stack>
+      </form>
+    </Card>
   );
 }

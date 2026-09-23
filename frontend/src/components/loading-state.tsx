@@ -3,5 +3,9 @@ interface LoadingStateProps {
 }
 
 export function LoadingState({ message = 'Loading...' }: LoadingStateProps) {
-  return <p role="status">{message}</p>;
+  return (
+    <p role="status" className="text-sm text-text-muted">
+      {message}
+    </p>
+  );
 }
