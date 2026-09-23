@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/button';
+import { Dialog } from '@/components/dialog';
 import { Stack } from '@/components/stack';
+import { useDialog } from '@/hooks/use-dialog';
 import type { ApiError } from '@/types/api-error';
 import { deleteWishlistItem } from '../api/delete-wishlist-item';
 
@@ -9,9 +11,23 @@ interface RemoveItemActionProps {
   itemId: number;
 }
 
-export function RemoveItemAction({ itemId }: RemoveItemActionProps) {
+function RemoveTrigger() {
+  const { open } = useDialog();
+
+  return (
+    <Button variant="danger" onClick={open}>
+      Remove
+    </Button>
+  );
+}
+
+interface RemoveConfirmationProps {
+  itemId: number;
+}
+
+function RemoveConfirmation({ itemId }: RemoveConfirmationProps) {
   const navigate = useNavigate();
-  const [isConfirming, setIsConfirming] = useState(false);
+  const { close } = useDialog();
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -25,29 +41,29 @@ export function RemoveItemAction({ itemId }: RemoveItemActionProps) {
       .finally(() => setIsDeleting(false));
   }
 
-  if (!isConfirming) {
-    return (
-      <Button variant="danger" onClick={() => setIsConfirming(true)}>
-        Remove
-      </Button>
-    );
-  }
-
   return (
-    <Stack direction="row" gap="sm">
-      <span className="text-sm text-text-muted">Remove this item?</span>
-      <Button variant="danger" onClick={handleConfirm} disabled={isDeleting}>
-        {isDeleting ? 'Removing...' : 'Confirm'}
-      </Button>
-      <Button
-        type="button"
-        variant="secondary"
-        onClick={() => setIsConfirming(false)}
-        disabled={isDeleting}
-      >
-        Cancel
-      </Button>
-      {error && <span className="text-sm text-danger">{error}</span>}
+    <Stack gap="md">
+      <p>Remove this item from your wishlist?</p>
+      {error && <p className="text-sm text-danger">{error}</p>}
+      <Stack direction="row" gap="sm">
+        <Button variant="danger" onClick={handleConfirm} disabled={isDeleting}>
+          {isDeleting ? 'Removing...' : 'Confirm'}
+        </Button>
+        <Button variant="secondary" onClick={close} disabled={isDeleting}>
+          Cancel
+        </Button>
+      </Stack>
     </Stack>
+  );
+}
+
+export function RemoveItemAction({ itemId }: RemoveItemActionProps) {
+  return (
+    <Dialog>
+      <RemoveTrigger />
+      <Dialog.Content>
+        <RemoveConfirmation itemId={itemId} />
+      </Dialog.Content>
+    </Dialog>
   );
 }
