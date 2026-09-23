@@ -140,6 +140,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-139** — add `Collapsible` component (Render Props pattern)
 - [x] **SNKR-140** — add `useClickOutside` hook + `Menu` compound component (Hooks Pattern + Compound Components)
 - [x] **SNKR-141** — visual polish: warm brown/cream palette + hover/active/focus-ring/shadow states on primitives, extract shared `Card` component, group item-detail sections into cards
+- [x] **SNKR-142** — add `Dialog` component + `useDialog` hook (Compound Components pattern)
 
 ## Stretch Goals (end of project, only if time remains)
 
