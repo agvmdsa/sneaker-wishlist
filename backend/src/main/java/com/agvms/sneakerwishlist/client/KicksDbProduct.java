@@ -14,6 +14,7 @@ public record KicksDbProduct(
         String brand,
         String image,
         BigDecimal avgPrice,
-        String productType
+        String productType,
+        Integer weeklyOrders
 ) {
 }

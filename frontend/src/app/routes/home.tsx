@@ -1,6 +1,7 @@
 import { PageContainer } from '@/components/page-container';
 import { Stack } from '@/components/stack';
 import { PopularHero } from '@/features/discovery/components/popular-hero';
+import { TrendingRow } from '@/features/discovery/components/trending-row';
 
 export function HomeRoute() {
   return (
@@ -8,6 +9,7 @@ export function HomeRoute() {
       <h1 className="text-lg font-semibold mb-4">Home</h1>
       <Stack gap="lg">
         <PopularHero />
+        <TrendingRow />
       </Stack>
     </PageContainer>
   );

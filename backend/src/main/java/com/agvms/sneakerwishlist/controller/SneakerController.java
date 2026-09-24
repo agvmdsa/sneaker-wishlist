@@ -7,6 +7,8 @@ import com.agvms.sneakerwishlist.usecase.sneaker.query.GetPopularSneakersQuery;
 import com.agvms.sneakerwishlist.usecase.sneaker.query.GetPopularSneakersUseCase;
 import com.agvms.sneakerwishlist.usecase.sneaker.query.GetSneakerByIdQuery;
 import com.agvms.sneakerwishlist.usecase.sneaker.query.GetSneakerByIdUseCase;
+import com.agvms.sneakerwishlist.usecase.sneaker.query.GetTrendingSneakersQuery;
+import com.agvms.sneakerwishlist.usecase.sneaker.query.GetTrendingSneakersUseCase;
 import com.agvms.sneakerwishlist.usecase.sneaker.query.SearchSneakersQuery;
 import com.agvms.sneakerwishlist.usecase.sneaker.query.SearchSneakersUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,15 +36,18 @@ public class SneakerController {
     private final SearchSneakersUseCase searchSneakersUseCase;
     private final GetSneakerByIdUseCase getSneakerByIdUseCase;
     private final GetPopularSneakersUseCase getPopularSneakersUseCase;
+    private final GetTrendingSneakersUseCase getTrendingSneakersUseCase;
 
     public SneakerController(SneakerCatalogClient sneakerCatalogClient,
                               SearchSneakersUseCase searchSneakersUseCase,
                               GetSneakerByIdUseCase getSneakerByIdUseCase,
-                              GetPopularSneakersUseCase getPopularSneakersUseCase) {
+                              GetPopularSneakersUseCase getPopularSneakersUseCase,
+                              GetTrendingSneakersUseCase getTrendingSneakersUseCase) {
         this.sneakerCatalogClient = sneakerCatalogClient;
         this.searchSneakersUseCase = searchSneakersUseCase;
         this.getSneakerByIdUseCase = getSneakerByIdUseCase;
         this.getPopularSneakersUseCase = getPopularSneakersUseCase;
+        this.getTrendingSneakersUseCase = getTrendingSneakersUseCase;
     }
 
     @Operation(summary = "Search sneakers", description = "Proxies KicksDB's StockX-backed search, filtering out non-sneaker results (apparel, etc).")
@@ -89,5 +94,16 @@ public class SneakerController {
     @GetMapping("/popular")
     public List<SneakerSummaryDto> popular(@RequestParam(required = false) Integer limit) {
         return getPopularSneakersUseCase.execute(new GetPopularSneakersQuery(limit));
+    }
+
+    @Operation(summary = "Trending sneakers this week", description = "Sneakers with the most orders in the past week, re-ranked in memory from a rank-ordered candidate pool since KicksDB cannot sort/filter by weekly order volume.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Trending sneakers"),
+            @ApiResponse(responseCode = "502", description = "Invalid/unparseable response from the external API",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+    })
+    @GetMapping("/trending")
+    public List<SneakerSummaryDto> trending(@RequestParam(required = false) Integer limit) {
+        return getTrendingSneakersUseCase.execute(new GetTrendingSneakersQuery(limit));
     }
 }

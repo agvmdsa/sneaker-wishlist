@@ -24,10 +24,15 @@ public class SneakerResponseMapper {
     }
 
     public List<SneakerSummaryDto> toSummaryList(String rawSearchResponse) {
+        return toSneakerProducts(rawSearchResponse).stream()
+                .map(this::toSummary)
+                .toList();
+    }
+
+    public List<KicksDbProduct> toSneakerProducts(String rawSearchResponse) {
         KicksDbSearchResponse response = parse(rawSearchResponse, KicksDbSearchResponse.class);
         return response.data().stream()
                 .filter(this::isSneaker)
-                .map(this::toSummary)
                 .toList();
     }
 
@@ -40,7 +45,7 @@ public class SneakerResponseMapper {
         return SNEAKER_PRODUCT_TYPE.equals(product.productType());
     }
 
-    private SneakerSummaryDto toSummary(KicksDbProduct product) {
+    public SneakerSummaryDto toSummary(KicksDbProduct product) {
         return new SneakerSummaryDto(
                 product.id(),
                 product.title(),
