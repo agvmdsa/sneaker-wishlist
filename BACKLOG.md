@@ -147,6 +147,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 ## Frontend — Discovery Home
 
 - [x] **SNKR-144** — relocate wishlist list to /wishlist, add Home placeholder route
+- [x] **SNKR-145** — add popular-sneakers hero section to discovery home
 
 ## Stretch Goals (end of project, only if time remains)
 
