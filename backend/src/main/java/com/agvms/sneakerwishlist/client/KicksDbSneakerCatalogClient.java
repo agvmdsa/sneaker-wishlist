@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -22,14 +24,30 @@ public class KicksDbSneakerCatalogClient implements SneakerCatalogClient {
 
     @Override
     public String search(String query, String filters, String sort, Integer page, Integer limit) {
-        String uri = UriComponentsBuilder.fromPath(SEARCH_PATH)
-                .queryParamIfPresent("query", Optional.ofNullable(query))
-                .queryParamIfPresent("filters", Optional.ofNullable(filters))
-                .queryParamIfPresent("sort", Optional.ofNullable(sort))
-                .queryParamIfPresent("page", Optional.ofNullable(page))
-                .queryParamIfPresent("limit", Optional.ofNullable(limit))
-                .toUriString();
-        return restTemplate.getForObject(uri, String.class);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath(SEARCH_PATH);
+        Map<String, Object> uriVariables = new HashMap<>();
+        if (query != null) {
+            builder.queryParam("query", "{query}");
+            uriVariables.put("query", query);
+        }
+        if (filters != null) {
+            builder.queryParam("filters", "{filters}");
+            uriVariables.put("filters", filters);
+        }
+        if (sort != null) {
+            builder.queryParam("sort", "{sort}");
+            uriVariables.put("sort", sort);
+        }
+        if (page != null) {
+            builder.queryParam("page", "{page}");
+            uriVariables.put("page", page);
+        }
+        if (limit != null) {
+            builder.queryParam("limit", "{limit}");
+            uriVariables.put("limit", limit);
+        }
+        String uriTemplate = builder.build().toUriString();
+        return restTemplate.getForObject(uriTemplate, String.class, uriVariables);
     }
 
     @Override

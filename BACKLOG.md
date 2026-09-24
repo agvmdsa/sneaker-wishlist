@@ -36,6 +36,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-16** — `GET /api/sneakers/search`, routed through `SneakerService`
 - [x] **SNKR-17** — `GET /api/sneakers/{id}`
 - [x] **SNKR-18** — `GET /api/sneakers/brands` with `@Cacheable`
+- [x] **SNKR-148** — fix double-encoding bug in `KicksDbSneakerCatalogClient.search()` (filters with spaces/`=` were percent-encoded twice, rejected by KicksDB); build the query template with named uri-variables instead of a pre-encoded string
 
 ## Backend — Wishlist CRUD
 
