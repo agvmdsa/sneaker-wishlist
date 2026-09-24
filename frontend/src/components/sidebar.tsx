@@ -5,7 +5,8 @@ import { cn } from '@/lib/cn';
 const SIDEBAR_STORAGE_KEY = 'sidebar-open';
 
 const links = [
-  { to: '/', label: 'Wishlist' },
+  { to: '/', label: 'Home' },
+  { to: '/wishlist', label: 'Wishlist' },
   { to: '/search', label: 'Search' },
   { to: '/stats', label: 'Stats' },
 ];

@@ -143,6 +143,10 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-142** — add `Dialog` component + `useDialog` hook (Compound Components pattern)
 - [x] **SNKR-143** — migrate item-removal and tag-removal confirmations from inline confirm/cancel to `Dialog`
 
+## Frontend — Discovery Home
+
+- [x] **SNKR-144** — relocate wishlist list to /wishlist, add Home placeholder route
+
 ## Stretch Goals (end of project, only if time remains)
 
 - [x] **SNKR-125** — define `Command`/`Query`/`CommandHandler`/`QueryHandler` marker interfaces
