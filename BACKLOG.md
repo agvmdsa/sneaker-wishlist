@@ -15,6 +15,7 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-91** — pin backend build to JDK 21 via Maven Toolchains, incl. inside the Docker build stage
 - [x] **SNKR-77** — add backend Dockerfile (multi-stage Maven build + JRE runtime)
 - [x] **SNKR-79** — add `docker-compose.yml` with db and backend services
+- [x] **SNKR-149** — enable `docker compose watch` for the backend service (`action: rebuild` on `backend/src` and `pom.xml`), removing the need to manually run `--build` after every Java change
 
 ## Backend — Database & Persistence
 
