@@ -155,6 +155,8 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-147** — add upcoming-releases row to discovery home
 - [x] **SNKR-150** — extract shared `SneakerRow` presentational component (Container/Presentational pattern), dedupe `PopularHero`/`TrendingRow`
 - [ ] **SNKR-151** — reuse `useAlreadyInCollection` in discovery `SneakerTile` so "Already added" stays in sync across sections showing the same sneaker
+- [x] **SNKR-154** — extract shared `useAddToWishlistToggle` hook (Hooks Pattern), dedupe the add/cancel toggle duplicated in `SneakerSearchResultCard` and `SneakerTile`
+- [ ] **SNKR-155** — extract a shared horizontal-scroll-list presentational piece, dedupe the `flex gap-4 overflow-x-auto` row markup between `SneakerRow` and `UpcomingReleasesRow`'s `BucketRow` (low priority)
 
 ## Stretch Goals (end of project, only if time remains)
 

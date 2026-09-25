@@ -4,6 +4,7 @@ import { Button } from '@/components/button';
 import { Card } from '@/components/card';
 import { Stack } from '@/components/stack';
 import { formatCurrency } from '@/lib/format-currency';
+import { useAddToWishlistToggle } from '@/hooks/use-add-to-wishlist-toggle';
 import { AddToWishlistForm } from '@/features/catalog/components/add-to-wishlist-form';
 import type { CatalogSneaker } from '@/features/catalog/types/catalog-sneaker.schema';
 
@@ -12,7 +13,7 @@ interface SneakerTileProps {
 }
 
 export function SneakerTile({ sneaker }: SneakerTileProps) {
-  const [isAdding, setIsAdding] = useState(false);
+  const { isAdding, toggleAdding, closeAdding } = useAddToWishlistToggle();
   const [isAdded, setIsAdded] = useState(false);
 
   return (
@@ -28,7 +29,7 @@ export function SneakerTile({ sneaker }: SneakerTileProps) {
         {isAdded ? (
           <Badge tone="success">Already added</Badge>
         ) : (
-          <Button variant="secondary" onClick={() => setIsAdding((current) => !current)}>
+          <Button variant="secondary" onClick={toggleAdding}>
             {isAdding ? 'Cancel' : 'Add'}
           </Button>
         )}
@@ -37,7 +38,7 @@ export function SneakerTile({ sneaker }: SneakerTileProps) {
           <AddToWishlistForm
             sneaker={sneaker}
             onAdded={() => {
-              setIsAdding(false);
+              closeAdding();
               setIsAdded(true);
             }}
           />

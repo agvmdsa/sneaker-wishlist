@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { Badge } from '@/components/badge';
 import { Button } from '@/components/button';
 import { Stack } from '@/components/stack';
 import { formatCurrency } from '@/lib/format-currency';
+import { useAddToWishlistToggle } from '@/hooks/use-add-to-wishlist-toggle';
 import type { CatalogSneaker } from '../types/catalog-sneaker.schema';
 import { AddToWishlistForm } from './add-to-wishlist-form';
 
@@ -17,7 +17,7 @@ export function SneakerSearchResultCard({
   isInCollection,
   onAdded,
 }: SneakerSearchResultCardProps) {
-  const [isAdding, setIsAdding] = useState(false);
+  const { isAdding, toggleAdding, closeAdding } = useAddToWishlistToggle();
 
   return (
     <div className="border border-border rounded-md bg-surface p-4 shadow-sm">
@@ -34,7 +34,7 @@ export function SneakerSearchResultCard({
         {isInCollection ? (
           <Badge tone="success">Already added</Badge>
         ) : (
-          <Button variant="secondary" onClick={() => setIsAdding((current) => !current)}>
+          <Button variant="secondary" onClick={toggleAdding}>
             {isAdding ? 'Cancel' : 'Add'}
           </Button>
         )}
@@ -45,7 +45,7 @@ export function SneakerSearchResultCard({
           <AddToWishlistForm
             sneaker={sneaker}
             onAdded={() => {
-              setIsAdding(false);
+              closeAdding();
               onAdded(sneaker.id);
             }}
           />
