@@ -143,6 +143,8 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-140** — add `useClickOutside` hook + `Menu` compound component (Hooks Pattern + Compound Components)
 - [x] **SNKR-141** — visual polish: warm brown/cream palette + hover/active/focus-ring/shadow states on primitives, extract shared `Card` component, group item-detail sections into cards
 - [x] **SNKR-142** — add `Dialog` component + `useDialog` hook (Compound Components pattern)
+- [ ] **SNKR-152** — route-level code-splitting with `React.lazy` + `Suspense` (catalog row 5) — revisit now that the bundle has grown past 470KB with no splitting
+- [ ] **SNKR-153** — add `ToastProvider`/`useToast` (Provider Pattern, catalog row 3) for success feedback (tag added, status updated, etc.)
 - [x] **SNKR-143** — migrate item-removal and tag-removal confirmations from inline confirm/cancel to `Dialog`
 
 ## Frontend — Discovery Home
@@ -151,6 +153,8 @@ Ticket convention: `SNKR-<n>: <what changed>`, one ticket per atomic commit.
 - [x] **SNKR-145** — add popular-sneakers hero section to discovery home
 - [x] **SNKR-146** — add trending-this-week row to discovery home
 - [x] **SNKR-147** — add upcoming-releases row to discovery home
+- [x] **SNKR-150** — extract shared `SneakerRow` presentational component (Container/Presentational pattern), dedupe `PopularHero`/`TrendingRow`
+- [ ] **SNKR-151** — reuse `useAlreadyInCollection` in discovery `SneakerTile` so "Already added" stays in sync across sections showing the same sneaker
 
 ## Stretch Goals (end of project, only if time remains)
 
