@@ -1,7 +1,7 @@
 import { AsyncState } from '@/components/async-state';
 import { Stack } from '@/components/stack';
 import { useUpcomingReleases } from '../hooks/use-upcoming-releases';
-import { SneakerTile } from './sneaker-tile';
+import { SneakerScrollList } from './sneaker-scroll-list';
 import type { CatalogSneaker } from '@/features/catalog/types/catalog-sneaker.schema';
 
 interface BucketRowProps {
@@ -17,11 +17,7 @@ function BucketRow({ label, sneakers }: BucketRowProps) {
   return (
     <Stack gap="sm">
       <h3 className="text-sm font-medium text-text-muted">{label}</h3>
-      <div className="flex gap-4 overflow-x-auto pb-2">
-        {sneakers.map((sneaker) => (
-          <SneakerTile key={sneaker.id} sneaker={sneaker} />
-        ))}
-      </div>
+      <SneakerScrollList sneakers={sneakers} />
     </Stack>
   );
 }
